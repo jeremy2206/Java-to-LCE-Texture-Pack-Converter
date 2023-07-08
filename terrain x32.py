@@ -897,7 +897,7 @@ TextConsole.configure(relief="solid", bd=2)
 
 #   **--Title and Background--** 
 
-TitleAppText = "Blocks Pack Converter x16"
+TitleAppText = "Blocks Pack Converter x32"
 TitleAppFontSize = 25
 TitleAppFont = ImageFont.truetype(FontMojangles, TitleAppFontSize)
 
