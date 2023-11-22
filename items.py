@@ -171,7 +171,7 @@ def process_images():
     "input/items/emerald.png": (160, 176),
     "input/items/experience_bottle.png": (176, 160),
     "input/items/feather.png": (128, 16),
-    "input/items/fermented_spider_eye.png": (0, 240),
+    "input/items/fermented_spider_eye.png": (160, 128),
     "input/items/filled_map.png": (208, 192),
     "input/items/fire_charge.png": (224, 32),
     "input/items/fireball.png": (224, 32),
@@ -259,7 +259,7 @@ def process_images():
     "input/items/leather_chestplate_overlay.png": (0, 160),
     "input/items/leather_helmet.png": (0, 0),
     "input/items/leather_helmet_overlay.png": (0, 144),
-    "input/items/leather_horse_armor.png": (240, 208),
+    "input/items/leather_horse_armor.png": (0, 256),
     "input/items/leather_leggings.png": (0, 32),
     "input/items/leather_leggings_overlay.png": (0, 176),
     "input/items/light_blue_dye.png": (240, 128),
@@ -330,9 +330,10 @@ def process_images():
     "input/items/prismarine_crystals.png": (224, 208),
     "input/items/prismarine_shard.png": (208, 208),
     "input/items/pufferfish.png": (96, 176),
-    "input/items/pufferfish_bucket.png": (96, 176),
+    "input/items/pufferfish_bucket.png": (224, 240),
     "input/items/pumpkin_pie.png": (128, 144),
     "input/items/pumpkin_seed.png": (208, 48),
+    "input/items/pumpkin_seeds.png": (208, 48),
     "input/items/purple_dye.png": (224, 144),
     "input/items/quartz.png": (192, 192),
     "input/items/rabbit.png": (80, 176),
@@ -354,13 +355,14 @@ def process_images():
     "input/items/record_wait.png": (176, 240),
     "input/items/record_ward.png": (144, 240),
     "input/items/red_dye.png": (224, 80),
+    "input/items/redstone.png": (128, 48),
     "input/items/redstone_dust.png": (128, 48),
     "input/items/reeds.png": (176, 16),
     "input/items/repeater.png": (96, 80),
     "input/items/rotten_flesh.png": (176, 80),
     "input/items/saddle.png": (128, 96),
     "input/items/salmon.png": (96, 192),
-    "input/items/salmon_bucket.png": (96, 192),
+    "input/items/salmon_bucket.png": (208, 240),
     "input/items/scute.png": (208, 256),
     "input/items/sea_pickle.png": (144, 256),
     "input/items/seeds_melon.png": (224, 48),
@@ -370,12 +372,13 @@ def process_images():
     "input/items/shulker_shell.png": (48, 224),
     "input/items/sign.png": (160, 32),
     "input/items/slimeball.png": (224, 16),
+    "input/items/slime_ball.png": (224, 16),
     "input/items/snowball.png": (224, 0),
     "input/items/spawn_egg.png": (144, 144),
     "input/items/spawn_egg_overlay.png": (144, 160),
     "input/items/spectral_arrow.png": (16, 144),
     "input/items/spider_eye.png": (176, 128),
-    "input/items/spider_eye_fermented.png": (0, 240),
+    "input/items/spider_eye_fermented.png": (160, 128),
     "input/items/splash_bottle.png": (160, 144),
     "input/items/splash_potion.png": (160, 144),
     "input/items/spruce_boat.png": (192, 208),
@@ -437,7 +440,7 @@ def process_images():
 # Créer l'app
 TextureApp = tk.Tk()
 TextureApp.title("Converter : Terrain (x16)")
-IconPath = os.path.abspath("assets/iconitem16.ico")
+IconPath = os.path.abspath("assets/iconitem.ico")
 TextureApp.iconbitmap(IconPath)
 TextureApp.geometry("380x280")
 TextureApp.resizable(False, False)
@@ -496,7 +499,7 @@ process_button.configure(relief="solid", bd=2)
 # Créer le widget ScrolledText
 TextConsole = ScrolledText(TextureApp, width=34, height=7)
 TextConsole.place(x=42.5, y=113)
-TextConsole.insert(tk.INSERT, "Version : 1.0 - Check if any      update have been made.\n")
+TextConsole.insert(tk.INSERT, "Version : 1.2 - Check if any      update have been made.\n")
 TextConsole.insert(tk.INSERT, "----------------------------------\n")
 TextConsole.configure(relief="solid", bd=2)
 
