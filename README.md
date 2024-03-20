@@ -1,18 +1,17 @@
 # Java-to-WiiU-Texture-Pack-Converter
-- Made by Jerem2206
-- Country Language EN
+- Made by Jerem2206.
+- Country Language: EN
 - Tested on Windows 10 & 11
----
-## What does it add? 
-An easier way to convert blocks/items/particles/paintings from Java version texture packs for WiiU and others
 
-## How to do ?
-- put your blocks/items/particles/paintings images in the input folder and run the corresponding .exe .
-- And click on the convert button.
-- Then find the result in the output folder.
----
+## What does it do? 
+The tool provides an easy way to convert Minecraft Java Edition textures over to the Wii U and other LCE versions of Minecraft. 
+
+## How do I use the tool?
+1. Put your texture into the **input** folder and run the corresponding .exe file.
+2. Once the conversion window shows up, click the **convert** button.
+3. After converting, check the finished results in the **output** folder.
+
 ## Roadmap
-
 ### Converter Version
 - [x] 1.8
 - [x] 1.9
