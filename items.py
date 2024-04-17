@@ -5,51 +5,51 @@ import shutil
 import webbrowser
 import os.path
 
-def crop_image(image, max_width, max_height):
-    width, height = image.size
-    if width > max_width or height > max_height:
-        left = 0
-        top = 0
-        right = min(width, max_width)
-        bottom = min(height, max_height)
-        image = image.crop((left, top, right, bottom))
-    return image
+def crop_imageitems(imageitems, max_widthitems, max_heightitems):
+    widthitems, heightitems = imageitems.size
+    if widthitems > max_widthitems or heightitems > max_heightitems:
+        leftitems = 0
+        topitems = 0
+        rightitems = min(widthitems, max_widthitems)
+        bottomitems = min(heightitems, max_heightitems)
+        imageitems = imageitems.crop((leftitems, topitems, rightitems, bottomitems))
+    return imageitems
 
-def multiply_coordinates(image_dict, factor):
-    multiplied_image_dict = {}
-    for image_path, position in image_dict.items():
-        multiplied_position = tuple(coord * factor for coord in position)
-        multiplied_image_dict[image_path] = multiplied_position
-    return multiplied_image_dict
+def multiply_coordinatesitems(image_dictitems, factoritems):
+    multiplied_image_dictitems = {}
+    for image_pathitems, positionitems in image_dictitems.items():
+        multiplied_positionitems = tuple(coorditems * factoritems for coorditems in positionitems)
+        multiplied_image_dictitems[image_pathitems] = multiplied_positionitems
+    return multiplied_image_dictitems
 
-def merge_images(image_dict, terrain_image, max_width, max_height, output_path):
-    terrain = Image.open(terrain_image)
+def merge_imagesitems(image_dictitems, items_image, max_widthitems, max_heightitems, output_pathitems):
+    items = Image.open(items_image)
 
-    for image_path, position in image_dict.items():
-        if os.path.isfile(image_path):
-            image = Image.open(image_path)
-            image = crop_image(image, max_width, max_height)
-            terrain.paste(image, position)
+    for image_pathitems, positionitems in image_dictitems.items():
+        if os.path.isfile(image_pathitems):
+            imageitems = Image.open(image_pathitems)
+            imageitems = crop_imageitems(imageitems, max_widthitems, max_heightitems)
+            items.paste(imageitems, positionitems)
         else:
-            print(f"L'image {image_path} n'existe pas.")
+            print(f"L'image {image_pathitems} n'existe pas.")
 
     # Sauvegarder l'image fusionnée en remplaçant l'image "items.png"
-    terrain.save(output_path)
+    items.save(output_pathitems)
     TextConsole.insert(tk.INSERT, "items.png converted at            output/items.png\n")
     TextConsole.insert(tk.INSERT, "----------------------------------\n")
     TextConsole.see(tk.END)
 
-def resize_image(input_path, output_path, new_width, new_height):
-    if os.path.isfile(input_path):
-        image = Image.open(input_path)
-        resized_image = image.resize((new_width, new_height), Image.LANCZOS)
-        resized_image.save(output_path)
+def resize_imageitems(input_pathitems, output_pathitems, new_widthitems, new_heightitems):
+    if os.path.isfile(input_pathitems):
+        imageitems = Image.open(input_pathitems)
+        resized_imageitems = imageitems.resize((new_widthitems, new_heightitems), Image.LANCZOS)
+        resized_imageitems.save(output_pathitems)
     else:
-        print(f"L'image {input_path} n'existe pas.")
+        print(f"L'image {input_pathitems} n'existe pas.")
 
-def process_images():
+def process_imagesitems():
     # Dictionnaire des images avec leurs positions
-    image_dict = {
+    image_dictitems = {
     "input/items/acacia_boat.png": (128, 208),
     "input/items/acacia_door.png": (0, 208),
     "input/items/apple.png": (160, 0),
@@ -421,25 +421,25 @@ def process_images():
     }
 
     # Chemin de l'image de terrain d'origine
-    terrain_input_path = "assets/texture/items.png"
+    terrain_input_pathitems = "assets/texture/items.png"
 
     # Chemin de sortie pour l'image de terrain fusionnée
-    terrain_output_path = "output/items.png"
+    terrain_output_pathitems = "output/items.png"
 
     # Copie de l'image de terrain vers le répertoire de sortie
-    shutil.copyfile(terrain_input_path, terrain_output_path)
+    shutil.copyfile(terrain_input_pathitems, terrain_output_pathitems)
 
     # Multiplier les coordonnées par 2
-    image_dict = multiply_coordinates(image_dict, 1)
+    image_dictitems = multiply_coordinatesitems(image_dictitems, 1)
 
     # Appel de la fonction pour fusionner les images sur items.png
-    merge_images(image_dict, terrain_output_path, 16, 16, terrain_output_path)
+    merge_imagesitems(image_dictitems, terrain_output_pathitems, 16, 16, terrain_output_pathitems)
 
 # ------------------------------------------
 
 # Créer l'app
 TextureApp = tk.Tk()
-TextureApp.title("Converter : Terrain (x16)")
+TextureApp.title("Converter : Items (x16)")
 IconPath = os.path.abspath("assets/iconitem.ico")
 TextureApp.iconbitmap(IconPath)
 TextureApp.geometry("380x280")
@@ -492,7 +492,7 @@ BorderBackgroundYoutubeDiscord.lift()
 
 
 # Créer le bouton de la conversion
-process_button = tk.Button(TextureApp, text="Convert Items (x16)", command=process_images)
+process_button = tk.Button(TextureApp, text="Convert Items (x16)", command=process_imagesitems)
 process_button.place(x=127.5, y=62)
 process_button.configure(relief="solid", bd=2)
 

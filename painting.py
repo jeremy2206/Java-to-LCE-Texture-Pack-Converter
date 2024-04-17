@@ -6,121 +6,121 @@ import webbrowser
 import os.path
 from collections import defaultdict  # pour images multiples
 
-def multiply_coordinates(image_dict, factor):
-    multiplied_image_dict = {}
-    for image_path, positions in image_dict.items():
-        multiplied_positions = [(coord[0] * factor, coord[1] * factor) for coord in positions]
-        multiplied_image_dict[image_path] = multiplied_positions
-    return multiplied_image_dict
+def multiply_coordinatespainting(image_dictpainting, factorpainting):
+    multiplied_image_dictpainting = {}
+    for image_pathpainting, positionspainting in image_dictpainting.items():
+        multiplied_positionspainting= [(coordpainting[0] * factorpainting, coordpainting[1] * factorpainting) for coordpainting in positionspainting]
+        multiplied_image_dictpainting[image_pathpainting] = multiplied_positionspainting
+    return multiplied_image_dictpainting
 
-def merge_images(image_dict, painting_image, max_width, max_height, output_path):
+def merge_imagespainting(image_dictpainting, painting_image, max_widthpainting, max_heightpainting, output_pathpainting):
     painting = Image.open(painting_image)
 
-    for image_path, positions in image_dict.items():
-        if os.path.isfile(image_path):
-            for position in positions:
-                image = Image.open(image_path)
-                painting.paste(image, position)
+    for image_pathpainting, positionspainting in image_dictpainting.items():
+        if os.path.isfile(image_pathpainting):
+            for positionpainting in positionspainting:
+                imagepainting = Image.open(image_pathpainting)
+                painting.paste(imagepainting, positionpainting)
         else:
-            print(f"L'image {image_path} n'existe pas.")
+            print(f"L'image {image_pathpainting} n'existe pas.")
 
     # Sauvegarder l'image fusionnée en remplaçant l'image "kz.png"
-    painting.save(output_path)
+    painting.save(output_pathpainting)
 
     TextConsole.insert(tk.INSERT, "kz.png converted at output/kz.png\n")
     TextConsole.insert(tk.INSERT, "----------------------------------\n")
     TextConsole.see(tk.END)
 
-def resize_image(input_path, output_path, new_width, new_height):
-    if os.path.isfile(input_path):
-        image = Image.open(input_path)
-        resized_image = image.resize((new_width, new_height), Image.LANCZOS)
-        resized_image.save(output_path)
+def resize_imagepainting(input_pathpainting, output_pathpainting, new_widthpainting, new_heightpainting):
+    if os.path.isfile(input_pathpainting):
+        imagepainting = Image.open(input_pathpainting)
+        resized_imagepainting = imagepainting.resize((new_widthpainting, new_heightpainting), Image.LANCZOS)
+        resized_imagepainting.save(output_pathpainting)
     else:
-        print(f"L'image {input_path} n'existe pas.")
+        print(f"L'image {input_pathpainting} n'existe pas.")
 
-def process_images():
-    multiplier_str = x_multiplier.get()
+def process_imagespainting():
+    multiplier_strpainting = x_multiplierpainting.get()
 
-    if multiplier_str == "x16":
-        multiplier = 1
-        painting_image_path = "assets/texture/kz.png"
-    elif multiplier_str == "x32":
-        multiplier = 2
-        painting_image_path = "assets/texture/kz32.png"
-    elif multiplier_str == "x64":
-        multiplier = 4
-        painting_image_path = "assets/texture/kz64.png"
-    elif multiplier_str == "x128":
-        multiplier = 8
-        painting_image_path = "assets/texture/kz128.png"
+    if multiplier_strpainting == "x16":
+        multiplierpainting = 1
+        painting_image_pathpainting = "assets/texture/kz.png"
+    elif multiplier_strpainting == "x32":
+        multiplierpainting = 2
+        painting_image_pathpainting = "assets/texture/kz32.png"
+    elif multiplier_strpainting == "x64":
+        multiplierpainting = 4
+        painting_image_pathpainting = "assets/texture/kz64.png"
+    elif multiplier_strpainting == "x128":
+        multiplierpainting = 8
+        painting_image_pathpainting = "assets/texture/kz128.png"
     else:
         return
 
     #liste d'images
-    image_dict = defaultdict(list)
+    image_dictpainting = defaultdict(list)
 
-    image_dict["input/painting/alban.png"].append((32, 0))
-    image_dict["input/painting/alban.png"].append((32, 16))
-    image_dict["input/painting/aztec.png"].append((16, 0))
-    image_dict["input/painting/aztec.png"].append((16, 16))
-    image_dict["input/painting/aztec2.png"].append((48, 0))
-    image_dict["input/painting/aztec2.png"].append((48, 16))
-    image_dict["input/painting/back.png"].append((192, 0))
-    image_dict["input/painting/back.png"].append((208, 0))
-    image_dict["input/painting/back.png"].append((224, 0))
-    image_dict["input/painting/back.png"].append((240, 0))
-    image_dict["input/painting/back.png"].append((192, 16))
-    image_dict["input/painting/back.png"].append((208, 16))
-    image_dict["input/painting/back.png"].append((224, 16))
-    image_dict["input/painting/back.png"].append((240, 16))
-    image_dict["input/painting/back.png"].append((192, 32))
-    image_dict["input/painting/back.png"].append((208, 32))
-    image_dict["input/painting/back.png"].append((224, 32))
-    image_dict["input/painting/back.png"].append((240, 32))
-    image_dict["input/painting/back.png"].append((192, 48))
-    image_dict["input/painting/back.png"].append((208, 48))
-    image_dict["input/painting/back.png"].append((224, 48))
-    image_dict["input/painting/back.png"].append((240, 48))
-    image_dict["input/painting/bomb.png"].append((64, 0))
-    image_dict["input/painting/bomb.png"].append((64, 16))
-    image_dict["input/painting/burning_skull.png"].append((128, 192))
-    image_dict["input/painting/bust.png"].append((32, 128))
-    image_dict["input/painting/courbet.png"].append((32, 32))
-    image_dict["input/painting/creebet.png"].append((128, 32))
-    image_dict["input/painting/donkey_kong.png"].append((192, 112))
-    image_dict["input/painting/fighters.png"].append((0, 96))
-    image_dict["input/painting/graham.png"].append((16, 64))
-    image_dict["input/painting/kebab.png"].append((0, 0))
-    image_dict["input/painting/kebab.png"].append((0, 16))
-    image_dict["input/painting/match.png"].append((0, 128))
-    image_dict["input/painting/pigscene.png"].append((64, 192))
-    image_dict["input/painting/plant.png"].append((80, 0))
-    image_dict["input/painting/plant.png"].append((80, 16))
-    image_dict["input/painting/pointer.png"].append((0, 192))
-    image_dict["input/painting/pool.png"].append((0, 32))
-    image_dict["input/painting/sea.png"].append((64, 32))
-    image_dict["input/painting/skeleton.png"].append((192, 64))
-    image_dict["input/painting/skull_and_roses.png"].append((128, 128))
-    image_dict["input/painting/stage.png"].append((64, 128))
-    image_dict["input/painting/sunset.png"].append((96, 32))
-    image_dict["input/painting/void.png"].append((96, 128))
-    image_dict["input/painting/wanderer.png"].append((0, 64))
-    image_dict["input/painting/wasteland.png"].append((96, 0))
-    image_dict["input/painting/wasteland.png"].append((96, 16))
-    image_dict["input/painting/wither.png"].append((160, 128))
+    image_dictpainting["input/painting/alban.png"].append((32, 0))
+    image_dictpainting["input/painting/alban.png"].append((32, 16))
+    image_dictpainting["input/painting/aztec.png"].append((16, 0))
+    image_dictpainting["input/painting/aztec.png"].append((16, 16))
+    image_dictpainting["input/painting/aztec2.png"].append((48, 0))
+    image_dictpainting["input/painting/aztec2.png"].append((48, 16))
+    image_dictpainting["input/painting/back.png"].append((192, 0))
+    image_dictpainting["input/painting/back.png"].append((208, 0))
+    image_dictpainting["input/painting/back.png"].append((224, 0))
+    image_dictpainting["input/painting/back.png"].append((240, 0))
+    image_dictpainting["input/painting/back.png"].append((192, 16))
+    image_dictpainting["input/painting/back.png"].append((208, 16))
+    image_dictpainting["input/painting/back.png"].append((224, 16))
+    image_dictpainting["input/painting/back.png"].append((240, 16))
+    image_dictpainting["input/painting/back.png"].append((192, 32))
+    image_dictpainting["input/painting/back.png"].append((208, 32))
+    image_dictpainting["input/painting/back.png"].append((224, 32))
+    image_dictpainting["input/painting/back.png"].append((240, 32))
+    image_dictpainting["input/painting/back.png"].append((192, 48))
+    image_dictpainting["input/painting/back.png"].append((208, 48))
+    image_dictpainting["input/painting/back.png"].append((224, 48))
+    image_dictpainting["input/painting/back.png"].append((240, 48))
+    image_dictpainting["input/painting/bomb.png"].append((64, 0))
+    image_dictpainting["input/painting/bomb.png"].append((64, 16))
+    image_dictpainting["input/painting/burning_skull.png"].append((128, 192))
+    image_dictpainting["input/painting/bust.png"].append((32, 128))
+    image_dictpainting["input/painting/courbet.png"].append((32, 32))
+    image_dictpainting["input/painting/creebet.png"].append((128, 32))
+    image_dictpainting["input/painting/donkey_kong.png"].append((192, 112))
+    image_dictpainting["input/painting/fighters.png"].append((0, 96))
+    image_dictpainting["input/painting/graham.png"].append((16, 64))
+    image_dictpainting["input/painting/kebab.png"].append((0, 0))
+    image_dictpainting["input/painting/kebab.png"].append((0, 16))
+    image_dictpainting["input/painting/match.png"].append((0, 128))
+    image_dictpainting["input/painting/pigscene.png"].append((64, 192))
+    image_dictpainting["input/painting/plant.png"].append((80, 0))
+    image_dictpainting["input/painting/plant.png"].append((80, 16))
+    image_dictpainting["input/painting/pointer.png"].append((0, 192))
+    image_dictpainting["input/painting/pool.png"].append((0, 32))
+    image_dictpainting["input/painting/sea.png"].append((64, 32))
+    image_dictpainting["input/painting/skeleton.png"].append((192, 64))
+    image_dictpainting["input/painting/skull_and_roses.png"].append((128, 128))
+    image_dictpainting["input/painting/stage.png"].append((64, 128))
+    image_dictpainting["input/painting/sunset.png"].append((96, 32))
+    image_dictpainting["input/painting/void.png"].append((96, 128))
+    image_dictpainting["input/painting/wanderer.png"].append((0, 64))
+    image_dictpainting["input/painting/wasteland.png"].append((96, 0))
+    image_dictpainting["input/painting/wasteland.png"].append((96, 16))
+    image_dictpainting["input/painting/wither.png"].append((160, 128))
 
     # Chemin de l'image de sortie
     painting_output_path = "output/kz.png"
 
     # Copie de l'image de painting vers la sortie
-    shutil.copyfile(painting_image_path, painting_output_path)
+    shutil.copyfile(painting_image_pathpainting, painting_output_path)
 
     # Multiplier les coordonnées par le facteur choisi (x16 ou x32...)
-    image_dict = multiply_coordinates(image_dict, multiplier)
+    image_dictpainting = multiply_coordinatespainting(image_dictpainting, multiplierpainting)
 
     # Appel de la fonction pour fusionner les images sur kz.png
-    merge_images(image_dict, painting_output_path, 16 * multiplier, 16 * multiplier, painting_output_path)
+    merge_imagespainting(image_dictpainting, painting_output_path, 16 * multiplierpainting, 16 * multiplierpainting, painting_output_path)
 
 # Créer l'app
 TextureApp = tk.Tk()
@@ -177,16 +177,16 @@ BorderBackgroundYoutubeDiscord.lift()
 #   **--Bouton--**
 
 # bouton pour choisir la conversion
-convert_button = tk.Button(TextureApp, text="Convert Paintings", command=process_images)
+convert_button = tk.Button(TextureApp, text="Convert Paintings", command=process_imagespainting)
 convert_button.place(x=95, y=62)
 convert_button.configure(relief="solid", bd=2)
 
 # Définir les options pour le menu déroulant (x16 / x32...)
-options = ["x16", "x32", "x64", "x128"]
+optionspainting = ["x16", "x32", "x64", "x128"]
 
 # Déclarez x_multiplier comme une variable de chaîne
-x_multiplier = tk.StringVar()
-x_multiplier.set(options[0])  # Par défaut x16
+x_multiplierpainting = tk.StringVar()
+x_multiplierpainting.set(optionspainting[0])  # Par défaut x16
 
 # Créer le widget ScrolledText
 TextConsole = ScrolledText(TextureApp, width=34, height=7)
@@ -195,25 +195,25 @@ TextConsole.insert(tk.INSERT, "Version : 1.2 - Check if any      update have bee
 TextConsole.insert(tk.INSERT, "----------------------------------\n")
 TextConsole.configure(relief="solid", bd=2)
 
-dropdown_menu = tk.OptionMenu(TextureApp, x_multiplier, *options)
+dropdown_menu = tk.OptionMenu(TextureApp, x_multiplierpainting, *optionspainting)
 dropdown_menu.place(x=200, y=59)
 dropdown_menu.configure(relief="solid", bd=2)
 
 # Action de clic pour le bouton x16 et autres
 def x16_button_click():
-    x_multiplier.set(1)
+    x_multiplierpainting.set(1)
     convert_button.config(text="Convert Painting (x16)")
 
 def x32_button_click():
-    x_multiplier.set(2)
+    x_multiplierpainting.set(2)
     convert_button.config(text="Convert Painting (x32)")
 
 def x32_button_click():
-    x_multiplier.set(4)
+    x_multiplierpainting.set(4)
     convert_button.config(text="Convert Painting (x64)")
 
 def x32_button_click():
-    x_multiplier.set(8)
+    x_multiplierpainting.set(8)
     convert_button.config(text="Convert Painting (x128)")
 
 
