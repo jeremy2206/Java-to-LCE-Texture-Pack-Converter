@@ -36,4 +36,4 @@ The tool provides an easy way to convert Minecraft Java Edition textures over to
 
 ### Others
 - [x] Blocks X16 & X32 together
-- [ ] All Converter together
+- [x] All Converter together
