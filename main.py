@@ -268,7 +268,7 @@ def process_imagesitems():
     "input/items/leather_chestplate_overlay.png": (0, 160),
     "input/items/leather_helmet.png": (0, 0),
     "input/items/leather_helmet_overlay.png": (0, 144),
-    "input/items/leather_horse_armor.png": (0, 256),
+    "input/items/leather_horse_armor.png": (240, 208),
     "input/items/leather_leggings.png": (0, 32),
     "input/items/leather_leggings_overlay.png": (0, 176),
     "input/items/light_blue_dye.png": (240, 128),
@@ -1133,6 +1133,7 @@ def process_imagesterrain():
     image_dictterrain["input/blocks/sea_pickle.png"].append((224, 480))
     image_dictterrain["input/blocks/seagrass.png"].append((128, 512))
     image_dictterrain["input/blocks/seagrass.png"].append((32, 496))
+    image_dictterrain["input/blocks/short_grass.png"].append((112, 32))
     image_dictterrain["input/blocks/slime_block.png"].append((192, 192))
     image_dictterrain["input/blocks/smooth_stone_slab_side.png"].append((80, 0))
     image_dictterrain["input/blocks/smooth_stone.png"].append((96, 0))
