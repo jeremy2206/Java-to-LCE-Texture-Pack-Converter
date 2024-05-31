@@ -56,24 +56,32 @@ def resize_imageitems(input_pathitems, output_pathitems, new_widthitems, new_hei
         print(f"L'image {input_pathitems} n'existe pas.")
 
 def process_imagesitems():
+    multiplier_stritems = x_multiplieritems.get()
+
+    if multiplier_stritems == "x16":
+        multiplieritems = 1
+        items_input_path = "assets/texture/items.png"
+    elif multiplier_stritems == "x32":
+        multiplieritems = 2
+        items_input_path = "assets/texture/items32.png"
+    else:
+        return
+    
     # Charger le terrain à partir du fichier JSON
     with open("assets/json/items.json", 'r') as items:
         image_dictitems = json.load(items)
 
-    # Chemin de l'image de terrain d'origine
-    terrain_input_pathitems = "assets/texture/items.png"
-
     # Chemin de sortie pour l'image de terrain fusionnée
-    terrain_output_pathitems = "output/items.png"
+    items_output_path = "output/items.png"
 
     # Copie de l'image de terrain vers le répertoire de sortie
-    shutil.copyfile(terrain_input_pathitems, terrain_output_pathitems)
+    shutil.copyfile(items_input_path, items_output_path)
 
     # Multiplier les coordonnées par 2
-    image_dictitems = multiply_coordinatesitems(image_dictitems, 1)
+    image_dictitems = multiply_coordinatesitems(image_dictitems, multiplieritems)
 
     # Appel de la fonction pour fusionner les images sur items.png
-    merge_imagesitems(image_dictitems, terrain_output_pathitems, 16, 16, terrain_output_pathitems)
+    merge_imagesitems(image_dictitems, items_input_path, multiplieritems * 16, multiplieritems * 16, items_output_path)
 
 
 # ----------------------------------------------------------------------------------------------- #
@@ -387,10 +395,18 @@ background_info_bottom_border.lift()
 
 
 # Créer le bouton de la conversion
-process_buttonitems = tk.Button(TextureApp, text="Convert Items (x16)", command=process_imagesitems)
-process_buttonitems.place(x=127.5, y=62)
-process_buttonitems.configure(relief="solid", bd=2)
+convert_buttonitems = tk.Button(TextureApp, text="Convert Items", command=process_imagesitems)
+convert_buttonitems.place(x=95, y=62)
+convert_buttonitems.configure(relief="solid", bd=2)
+# Définir les options pour le menu déroulant (x16 et x32)
+optionsitems = ["x16"]
+# Déclarez x_multiplier comme une variable de chaîne
+x_multiplieritems = tk.StringVar()
+x_multiplieritems.set(optionsitems[0])  # Par défaut, x16 est sélectionné
 
+dropdown_menuitems = tk.OptionMenu(TextureApp, x_multiplieritems, *optionsitems)
+dropdown_menuitems.place(x=210, y=62)
+dropdown_menuitems.configure(relief="solid", bd=2)
 
 # ------------------------------------------
 # ------------------------------------------
@@ -410,17 +426,6 @@ x_multiplierterrain.set(optionsterrain[0])  # Par défaut, x16 est sélectionné
 dropdown_menuterrain = tk.OptionMenu(TextureApp, x_multiplierterrain, *optionsterrain)
 dropdown_menuterrain.place(x=210, y=99)
 dropdown_menuterrain.configure(relief="solid", bd=2)
-
-# Action de clic pour le bouton x16
-def x16_button_clickterrain():
-    x_multiplierterrain.set(1)
-    convert_buttonterrain.config(text="Convert Blocks (x16)")
-
-# Action de clic pour le bouton x32
-def x32_button_clickterrain():
-    x_multiplierterrain.set(2)
-    convert_buttonterrain.config(text="Convert Blocks (x32)")
-
 
 # ------------------------------------------
 # ------------------------------------------
@@ -443,24 +448,6 @@ dropdown_menuparticles = tk.OptionMenu(TextureApp, x_multiplierparticles, *optio
 dropdown_menuparticles.place(x=210, y=139)
 dropdown_menuparticles.configure(relief="solid", bd=2)
 
-# Action de clic pour le bouton x16 et autres
-def x16_button_clickparticles():
-    x_multiplierparticles.set(1)
-    convert_buttonparticles.config(text="Convert Particles (x8)")
-
-def x32_button_clickparticles():
-    x_multiplierparticles.set(2)
-    convert_buttonparticles.config(text="Convert Particles (x16)")
-
-def x32_button_clickparticles():
-    x_multiplierparticles.set(4)
-    convert_buttonparticles.config(text="Convert Particles (x32)")
-
-def x32_button_clickparticles():
-    x_multiplierparticles.set(8)
-    convert_buttonparticles.config(text="Convert Particles (x64)")
-
-
 # ------------------------------------------
 # ------------------------------------------
 # ------------------------------------------
@@ -482,22 +469,6 @@ dropdown_menupainting = tk.OptionMenu(TextureApp, x_multiplierpainting, *options
 dropdown_menupainting.place(x=210, y=179)
 dropdown_menupainting.configure(relief="solid", bd=2)
 
-# Action de clic pour le bouton x16 et autres
-def x16_button_clickpainting():
-    x_multiplierpainting.set(1)
-    convert_buttonpainting.config(text="Convert Painting (x16)")
-
-def x32_button_clickpainting():
-    x_multiplierpainting.set(2)
-    convert_buttonpainting.config(text="Convert Painting (x32)")
-
-def x32_button_clickpainting():
-    x_multiplierpainting.set(4)
-    convert_buttonpainting.config(text="Convert Painting (x64)")
-
-def x32_button_clickpainting():
-    x_multiplierpainting.set(8)
-    convert_buttonpainting.config(text="Convert Painting (x128)")
 # ------------------------------------------
 # ------------------------------------------
 # ------------------------------------------
