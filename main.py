@@ -1,18 +1,16 @@
 import tkinter as tk
-from PIL import ImageTk, Image, ImageFont, ImageDraw
 from tkinter.scrolledtext import ScrolledText
 import json
 import shutil
 import webbrowser
 import os.path
-from collections import defaultdict  # pour images multiples
+from PIL import ImageTk, Image, ImageFont, ImageDraw
 
 
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
+# ----------------------------------------------------------------------------------------------- #
+# ----------------------------------------------------------------------------------------------- #
+# ----------------------------------------------------------------------------------------------- #
+# ----------------------------------------------------------------------------------------------- #
 
 
 def crop_imageitems(imageitems, max_widthitems, max_heightitems):
@@ -45,9 +43,9 @@ def merge_imagesitems(image_dictitems, items_image, max_widthitems, max_heightit
 
     # Sauvegarder l'image fusionnée en remplaçant l'image "items.png"
     items.save(output_pathitems)
-    TextConsole.insert(tk.INSERT, "items.png converted at            output/items.png\n")
-    TextConsole.insert(tk.INSERT, "----------------------------------\n")
-    TextConsole.see(tk.END)
+    text_console.insert(tk.INSERT, "items.png converted at            output/items.png\n")
+    text_console.insert(tk.INSERT, "----------------------------------\n")
+    text_console.see(tk.END)
 
 def resize_imageitems(input_pathitems, output_pathitems, new_widthitems, new_heightitems):
     if os.path.isfile(input_pathitems):
@@ -78,11 +76,10 @@ def process_imagesitems():
     merge_imagesitems(image_dictitems, terrain_output_pathitems, 16, 16, terrain_output_pathitems)
 
 
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
+# ----------------------------------------------------------------------------------------------- #
+# ----------------------------------------------------------------------------------------------- #
+# ----------------------------------------------------------------------------------------------- #
+# ----------------------------------------------------------------------------------------------- #
 
 
 def crop_imageterrain(imageterrain, max_widthterrain, max_heightterrain):
@@ -119,9 +116,9 @@ def merge_imagesterrain(image_dictterrain, terrain_image, max_widthterrain, max_
 
     # Sauvegarder l'image fusionnée en remplaçant l'image "terrain.png"
     terrain.save(output_pathterrain)
-    TextConsole.insert(tk.INSERT, "terrain.png converted at          output/terrain.png\n")
-    TextConsole.insert(tk.INSERT, "----------------------------------\n")
-    TextConsole.see(tk.END)
+    text_console.insert(tk.INSERT, "terrain.png converted at          output/terrain.png\n")
+    text_console.insert(tk.INSERT, "----------------------------------\n")
+    text_console.see(tk.END)
 
 def resize_imageterrain(input_pathterrain, output_pathterrain, new_widthterrain, new_heightterrain):
     if os.path.isfile(input_pathterrain):
@@ -161,23 +158,22 @@ def process_imagesterrain():
 
     # Redimensionner terrainMipMapLevel2.png en 128x272 ou 256x544
     resize_imageterrain(terrain_output_path, "output/terrainMipMapLevel2.png", 128 * multiplierterrain, 272 * multiplierterrain)
-    TextConsole.insert(tk.INSERT, "terrainMipMapLevel2.png converted output/terrainMipMapLevel2.png\n")
-    TextConsole.insert(tk.INSERT, "----------------------------------\n")
-    TextConsole.see(tk.END)
+    text_console.insert(tk.INSERT, "terrainMipMapLevel2.png converted output/terrainMipMapLevel2.png\n")
+    text_console.insert(tk.INSERT, "----------------------------------\n")
+    text_console.see(tk.END)
 
     # Copier et redimensionner terrainMipMapLevel2.png pour terrainMipMapLevel3.png
     shutil.copyfile("output/terrainMipMapLevel2.png", "output/terrainMipMapLevel3.png")
     resize_imageterrain("output/terrainMipMapLevel3.png", "output/terrainMipMapLevel3.png", 64 * multiplierterrain, 136 * multiplierterrain)
-    TextConsole.insert(tk.INSERT, "terrainMipMapLevel3.png converted output/terrainMipMapLevel3.png\n")
-    TextConsole.insert(tk.INSERT, "----------------------------------\n")
-    TextConsole.see(tk.END)
+    text_console.insert(tk.INSERT, "terrainMipMapLevel3.png converted output/terrainMipMapLevel3.png\n")
+    text_console.insert(tk.INSERT, "----------------------------------\n")
+    text_console.see(tk.END)
 
 
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
+# ----------------------------------------------------------------------------------------------- #
+# ----------------------------------------------------------------------------------------------- #
+# ----------------------------------------------------------------------------------------------- #
+# ----------------------------------------------------------------------------------------------- #
 
 
 def multiply_coordinatesparticles(image_dictparticles, factorparticles):
@@ -204,9 +200,9 @@ def merge_imagesparticles(image_dictparticles, particle_image, max_widthparticle
     # Sauvegarder l'image fusionnée en remplaçant l'image "particles.png"
     particle.save(output_pathparticles)
 
-    TextConsole.insert(tk.INSERT, "particles.png converted at        output/particles.png\n")
-    TextConsole.insert(tk.INSERT, "----------------------------------\n")
-    TextConsole.see(tk.END)
+    text_console.insert(tk.INSERT, "particles.png converted at        output/particles.png\n")
+    text_console.insert(tk.INSERT, "----------------------------------\n")
+    text_console.see(tk.END)
 
 def resize_imageparticles(input_pathparticles, output_pathparticles, new_widthparticles, new_heightparticles):
     if os.path.isfile(input_pathparticles):
@@ -251,11 +247,10 @@ def process_images():
     merge_imagesparticles(image_dictparticles, particle_output_path, 16 * multiplierparticles, 16 * multiplierparticles, particle_output_path)
 
 
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
+# ----------------------------------------------------------------------------------------------- #
+# ----------------------------------------------------------------------------------------------- #
+# ----------------------------------------------------------------------------------------------- #
+# ----------------------------------------------------------------------------------------------- #
 
 
 def multiply_coordinatespainting(image_dictpainting, factorpainting):
@@ -282,9 +277,9 @@ def merge_imagespainting(image_dictpainting, painting_image, max_widthpainting, 
     # Sauvegarder l'image fusionnée en remplaçant l'image "kz.png"
     painting.save(output_pathpainting)
 
-    TextConsole.insert(tk.INSERT, "kz.png converted at output/kz.png\n")
-    TextConsole.insert(tk.INSERT, "----------------------------------\n")
-    TextConsole.see(tk.END)
+    text_console.insert(tk.INSERT, "kz.png converted at output/kz.png\n")
+    text_console.insert(tk.INSERT, "----------------------------------\n")
+    text_console.see(tk.END)
 
 def resize_imagepainting(input_pathpainting, output_pathpainting, new_widthpainting, new_heightpainting):
     if os.path.isfile(input_pathpainting):
@@ -329,62 +324,61 @@ def process_imagespainting():
     merge_imagespainting(image_dictpainting, painting_output_path, 16 * multiplierpainting, 16 * multiplierpainting, painting_output_path)
 
 
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
+# ----------------------------------------------------------------------------------------------- #
+# ----------------------------------------------------------------------------------------------- #
+# ----------------------------------------------------------------------------------------------- #
+# ----------------------------------------------------------------------------------------------- #
 
 
 # Créer l'app
 TextureApp = tk.Tk()
 TextureApp.title("Texture Pack Converter Java to LCE")
-IconPath = os.path.abspath("assets/icon.ico")
-TextureApp.iconbitmap(IconPath)
+icon_path = os.path.abspath("assets/icon.ico")
+TextureApp.iconbitmap(icon_path)
 TextureApp.geometry("380x380")
 TextureApp.resizable(False, False)
 
 # ------------------------------------------
 
 # Load images
-youtubeImagePath = os.path.abspath("assets/youtube.png")
-YoutubeImage = Image.open(youtubeImagePath)
-YoutubeImageSize = YoutubeImage.resize((23, 20), Image.LANCZOS)
-YoutubePhotoImage = ImageTk.PhotoImage(YoutubeImageSize)
+youtube_image_path = os.path.abspath("assets/youtube.png")
+youtube_image = Image.open(youtube_image_path)
+youtube_image_size = youtube_image.resize((23, 20), Image.LANCZOS)
+youtube_photo_image = ImageTk.PhotoImage(youtube_image_size)
 
-discordImagePath = os.path.abspath("assets/discord.png")
-DiscordImage = Image.open(discordImagePath)
-DiscordImageSize = DiscordImage.resize((23, 20), Image.LANCZOS)
-DiscordPhotoImage = ImageTk.PhotoImage(DiscordImageSize)
+discord_image_path = os.path.abspath("assets/discord.png")
+discord_image = Image.open(discord_image_path)
+discord_image_size = discord_image.resize((23, 20), Image.LANCZOS)
+discord_photo_image = ImageTk.PhotoImage(discord_image_size)
 
-githubImagePath = os.path.abspath("assets/github.png")
-GitHubImage = Image.open(githubImagePath)
-GitHubImageSize = GitHubImage.resize((23, 20), Image.LANCZOS)
-GitHubPhotoImage = ImageTk.PhotoImage(GitHubImageSize)
+github_image_path = os.path.abspath("assets/github.png")
+github_image = Image.open(github_image_path)
+github_image_size = github_image.resize((23, 20), Image.LANCZOS)
+github_photo_image = ImageTk.PhotoImage(github_image_size)
 
 # Load Font 
-FontMojangles = os.path.abspath("assets/Mojangles.ttf")
+font_mojangles = os.path.abspath("assets/Mojangles.ttf")
 
 # ------------------------------------------
 
 #   **--Background--**
 
 # Global Background
-Background = tk.Label(TextureApp, bg="#383838")
-Background.place(x=0, y=0, width=380, height=400)
+background = tk.Label(TextureApp, bg="#383838")
+background.place(x=0, y=0, width=380, height=400)
 
 # Title Border Background
-BorderBackgroundTitleApp = tk.Label(TextureApp, bg="#000000")
-BorderBackgroundTitleApp.place(x=0, y=38, width=380, height=2)
-BorderBackgroundTitleApp.lift()
+app_title_background_border = tk.Label(TextureApp, bg="#000000")
+app_title_background_border.place(x=0, y=38, width=380, height=2)
+app_title_background_border.lift()
 
 # Background Youtube Discord
-BackgroundYoutubeDiscord = tk.Label(TextureApp, bg="#585858")
-BackgroundYoutubeDiscord.place(x=0, y=350, width=380, height=30)
-BackgroundYoutubeDiscord.lift()
-BorderBackgroundYoutubeDiscord = tk.Label(TextureApp, bg="#000000")
-BorderBackgroundYoutubeDiscord.place(x=0, y=419, width=380, height=2)
-BorderBackgroundYoutubeDiscord.lift()
+bacground_info_bottom = tk.Label(TextureApp, bg="#585858")
+bacground_info_bottom.place(x=0, y=350, width=380, height=30)
+bacground_info_bottom.lift()
+bacground_info_bottom_border = tk.Label(TextureApp, bg="#000000")
+bacground_info_bottom_border.place(x=0, y=419, width=380, height=2)
+bacground_info_bottom_border.lift()
 
 
 # ------------------------------------------
@@ -510,70 +504,70 @@ def x32_button_clickpainting():
 
 
 # Créer le widget ScrolledText
-TextConsole = ScrolledText(TextureApp, width=34, height=7)
-TextConsole.place(x=42.5, y=223)
-TextConsole.insert(tk.INSERT, "Version : 1.3 - Check if any      update have been made.\n")
-TextConsole.insert(tk.INSERT, "----------------------------------\n")
-TextConsole.configure(relief="solid", bd=2)
+text_console = ScrolledText(TextureApp, width=34, height=7)
+text_console.place(x=42.5, y=223)
+text_console.insert(tk.INSERT, "Version : 1.3 - Check if any      update have been made.\n")
+text_console.insert(tk.INSERT, "----------------------------------\n")
+text_console.configure(relief="solid", bd=2)
 
 # ------------------------------------------
 
 #   **--Title and Background--** 
 
-TitleAppText = "Texture Pack Converter"
-TitleAppFontSize = 25
-TitleAppFont = ImageFont.truetype(FontMojangles, TitleAppFontSize)
+app_title_text = "Texture Pack Converter"
+app_title_font_size = 25
+app_title_font = ImageFont.truetype(font_mojangles, app_title_font_size)
 
 # Image and Border
-TitleAppImageWidth = 390
-TitleAppImageHeight = 35
-TitleAppImage = Image.new("RGBA", (TitleAppImageWidth, TitleAppImageHeight), (255, 255, 255, 0))
-TitleAppDraw = ImageDraw.Draw(TitleAppImage)
-TitleAppOutlineColor = (0, 0, 0)
-TitleAppOutlinePosition = (31.5, 4)
-TitleAppDraw.text(TitleAppOutlinePosition, TitleAppText, font=TitleAppFont, fill=TitleAppOutlineColor)
+app_title_image_width = 390
+app_title_image_height = 35
+app_title_image = Image.new("RGBA", (app_title_image_width, app_title_image_height), (255, 255, 255, 0))
+app_title_draw = ImageDraw.Draw(app_title_image)
+app_title_outline_color = (0, 0, 0)
+app_title_outline_position = (31.5, 4)
+app_title_draw.text(app_title_outline_position, app_title_text, font=app_title_font, fill=app_title_outline_color)
 
 # Draw Text
-TitleAppTextColor = (255, 255, 255)
-TitleAppTextPosition = (29, 2)
-TitleAppDraw.text(TitleAppTextPosition, TitleAppText, font=TitleAppFont, fill=TitleAppTextColor)
+app_title_text_color = (255, 255, 255)
+app_title_text_position = (29, 2)
+app_title_draw.text(app_title_text_position, app_title_text, font=app_title_font, fill=app_title_text_color)
 
 # Convert Image to tk
-TitleAppImagetk = ImageTk.PhotoImage(TitleAppImage)
+app_title_imagetk = ImageTk.PhotoImage(app_title_image)
 
 # Show Image
-TitleApp = tk.Label(TextureApp, image=TitleAppImagetk, bg="#585858")
-TitleApp.place(x=0, y=0)
+app_title = tk.Label(TextureApp, image=app_title_imagetk, bg="#585858")
+app_title.place(x=0, y=0)
 
 # ------------------------------------------
 
 #    **--YouTube Button--**
 
 # Image
-YoutubeIMG = tk.Label(TextureApp, image=YoutubePhotoImage, bg="#585858", bd=1, relief="solid")
-YoutubeIMG.place(x=213, y=TextureApp.winfo_height() - 3, anchor="sw")
+youtube_img = tk.Label(TextureApp, image=youtube_photo_image, bg="#585858", bd=1, relief="solid")
+youtube_img.place(x=213, y=TextureApp.winfo_height() - 3, anchor="sw")
 
 # Text
-YoutubeText = tk.Label(TextureApp, text="Jerem2206", bg="#585858", fg="#FFFFFF")
-YoutubeText.place(x=200, y=TextureApp.winfo_height() - 25, anchor="sw")
-YoutubeText.place_forget()
+youtube_text = tk.Label(TextureApp, text="Jerem2206", bg="#585858", fg="#FFFFFF")
+youtube_text.place(x=200, y=TextureApp.winfo_height() - 25, anchor="sw")
+youtube_text.place_forget()
 
 # Display text
-def YoutubeShowText(event):
-    YoutubeText.place(x=200, y=TextureApp.winfo_height() - 25, anchor="sw")
+def youtube_show_text(event):
+    youtube_text.place(x=200, y=TextureApp.winfo_height() - 25, anchor="sw")
 
 # Hide text
-def YoutubeHideText(event):
-    YoutubeText.place_forget()
+def youtube_hide_text(event):
+    youtube_text.place_forget()
 
 # Link
-def YoutubeLink(event):
+def youtube_link(event):
     webbrowser.open("https://www.youtube.com/channel/UC004A2sK0Pr0dD6MJzy6cTQ")
 
 # Bind events
-YoutubeIMG.bind("<Enter>", YoutubeShowText)
-YoutubeIMG.bind("<Leave>", YoutubeHideText)
-YoutubeIMG.bind("<Button-1>", YoutubeLink)
+youtube_img.bind("<Enter>", youtube_show_text)
+youtube_img.bind("<Leave>", youtube_hide_text)
+youtube_img.bind("<Button-1>", youtube_link)
 
 
 # ------------------------------------------
@@ -581,25 +575,25 @@ YoutubeIMG.bind("<Button-1>", YoutubeLink)
 #   **--Discord Button--**
 
 # Image
-DiscordIMG = tk.Label(TextureApp, image=DiscordPhotoImage, bg="#585858", bd=1, relief="solid")
-DiscordIMG.place(x=130, y=TextureApp.winfo_height() - 3, anchor="sw")
+discord_img = tk.Label(TextureApp, image=discord_photo_image, bg="#585858", bd=1, relief="solid")
+discord_img.place(x=130, y=TextureApp.winfo_height() - 3, anchor="sw")
 
 # Text
-DiscordText = tk.Label(TextureApp, text="jeremestici", bg="#585858", fg="#FFFFFF")
-DiscordText.place(x=113, y=TextureApp.winfo_height() - 25, anchor="sw")
-DiscordText.place_forget()
+discord_text = tk.Label(TextureApp, text="jeremestici", bg="#585858", fg="#FFFFFF")
+discord_text.place(x=113, y=TextureApp.winfo_height() - 25, anchor="sw")
+discord_text.place_forget()
 
 # Display text
 def DiscordShowText(event):
-    DiscordText.place(x=113, y=TextureApp.winfo_height() - 25, anchor="sw")
+    discord_text.place(x=113, y=TextureApp.winfo_height() - 25, anchor="sw")
 
 # Hide text
 def DiscordHideText(event):
-    DiscordText.place_forget()
+    discord_text.place_forget()
 
 # Bind events
-DiscordIMG.bind("<Enter>", DiscordShowText)
-DiscordIMG.bind("<Leave>", DiscordHideText)
+discord_img.bind("<Enter>", DiscordShowText)
+discord_img.bind("<Leave>", DiscordHideText)
 
 
 # ------------------------------------------
@@ -607,29 +601,29 @@ DiscordIMG.bind("<Leave>", DiscordHideText)
 #    **--GitHub Button--**
 
 # Image
-GitHubIMG = tk.Label(TextureApp, image=GitHubPhotoImage, bg="#585858", bd=1, relief="solid")
-GitHubIMG.place(x=171, y=TextureApp.winfo_height() - 3, anchor="sw")
+github_img = tk.Label(TextureApp, image=github_photo_image, bg="#585858", bd=1, relief="solid")
+github_img.place(x=171, y=TextureApp.winfo_height() - 3, anchor="sw")
 
 # Text
-GitHubText = tk.Label(TextureApp, text="jeremy2206", bg="#585858", fg="#FFFFFF")
-GitHubText.place(x=151, y=TextureApp.winfo_height() - 25, anchor="sw")
-GitHubText.place_forget()
+github_text = tk.Label(TextureApp, text="jeremy2206", bg="#585858", fg="#FFFFFF")
+github_text.place(x=151, y=TextureApp.winfo_height() - 25, anchor="sw")
+github_text.place_forget()
 
 # Display text
-def GitHubShowText(event):
-    GitHubText.place(x=151, y=TextureApp.winfo_height() - 25, anchor="sw")
+def github_show_text(event):
+    github_text.place(x=151, y=TextureApp.winfo_height() - 25, anchor="sw")
 
 # Hide text
-def GitHubHideText(event):
-    GitHubText.place_forget()
+def github_hide_text(event):
+    github_text.place_forget()
 
 # Link
-def GitHubLink(event):
+def github_link(event):
     webbrowser.open("https://github.com/jeremy2206")
 
 # Bind events
-GitHubIMG.bind("<Enter>", GitHubShowText)
-GitHubIMG.bind("<Leave>", GitHubHideText)
-GitHubIMG.bind("<Button-1>", GitHubLink)
+github_img.bind("<Enter>", github_show_text)
+github_img.bind("<Leave>", github_hide_text)
+github_img.bind("<Button-1>", github_link)
 
 TextureApp.mainloop()
