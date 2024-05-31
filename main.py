@@ -373,12 +373,12 @@ app_title_background_border.place(x=0, y=38, width=380, height=2)
 app_title_background_border.lift()
 
 # Background Youtube Discord
-bacground_info_bottom = tk.Label(TextureApp, bg="#585858")
-bacground_info_bottom.place(x=0, y=350, width=380, height=30)
-bacground_info_bottom.lift()
-bacground_info_bottom_border = tk.Label(TextureApp, bg="#000000")
-bacground_info_bottom_border.place(x=0, y=419, width=380, height=2)
-bacground_info_bottom_border.lift()
+background_info_bottom = tk.Label(TextureApp, bg="#585858")
+background_info_bottom.place(x=0, y=350, width=380, height=30)
+background_info_bottom.lift()
+background_info_bottom_border = tk.Label(TextureApp, bg="#000000")
+background_info_bottom_border.place(x=0, y=419, width=380, height=2)
+background_info_bottom_border.lift()
 
 
 # ------------------------------------------
