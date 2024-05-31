@@ -399,7 +399,7 @@ convert_buttonitems = tk.Button(TextureApp, text="Convert Items", command=proces
 convert_buttonitems.place(x=95, y=62)
 convert_buttonitems.configure(relief="solid", bd=2)
 # Définir les options pour le menu déroulant (x16 et x32)
-optionsitems = ["x16", "x32"]
+optionsitems = ["x16"]
 # Déclarez x_multiplier comme une variable de chaîne
 x_multiplieritems = tk.StringVar()
 x_multiplieritems.set(optionsitems[0])  # Par défaut, x16 est sélectionné
