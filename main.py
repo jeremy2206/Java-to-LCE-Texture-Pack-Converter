@@ -448,24 +448,6 @@ dropdown_menuparticles = tk.OptionMenu(TextureApp, x_multiplierparticles, *optio
 dropdown_menuparticles.place(x=210, y=139)
 dropdown_menuparticles.configure(relief="solid", bd=2)
 
-# Action de clic pour le bouton x16 et autres
-def x16_button_clickparticles():
-    x_multiplierparticles.set(1)
-    convert_buttonparticles.config(text="Convert Particles (x8)")
-
-def x32_button_clickparticles():
-    x_multiplierparticles.set(2)
-    convert_buttonparticles.config(text="Convert Particles (x16)")
-
-def x32_button_clickparticles():
-    x_multiplierparticles.set(4)
-    convert_buttonparticles.config(text="Convert Particles (x32)")
-
-def x32_button_clickparticles():
-    x_multiplierparticles.set(8)
-    convert_buttonparticles.config(text="Convert Particles (x64)")
-
-
 # ------------------------------------------
 # ------------------------------------------
 # ------------------------------------------
@@ -487,22 +469,6 @@ dropdown_menupainting = tk.OptionMenu(TextureApp, x_multiplierpainting, *options
 dropdown_menupainting.place(x=210, y=179)
 dropdown_menupainting.configure(relief="solid", bd=2)
 
-# Action de clic pour le bouton x16 et autres
-def x16_button_clickpainting():
-    x_multiplierpainting.set(1)
-    convert_buttonpainting.config(text="Convert Painting (x16)")
-
-def x32_button_clickpainting():
-    x_multiplierpainting.set(2)
-    convert_buttonpainting.config(text="Convert Painting (x32)")
-
-def x32_button_clickpainting():
-    x_multiplierpainting.set(4)
-    convert_buttonpainting.config(text="Convert Painting (x64)")
-
-def x32_button_clickpainting():
-    x_multiplierpainting.set(8)
-    convert_buttonpainting.config(text="Convert Painting (x128)")
 # ------------------------------------------
 # ------------------------------------------
 # ------------------------------------------
