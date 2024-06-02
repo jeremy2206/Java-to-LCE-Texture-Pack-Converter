@@ -99,7 +99,7 @@ class AtlasHandler:
                 text_console.see(tk.END)
 
 
-# Créer l'app
+# Create App
 TextureApp = tk.Tk()
 TextureApp.title("Texture Pack Converter Java to LCE")
 icon_path = os.path.abspath("assets/icon.ico")
@@ -128,9 +128,9 @@ github_photo_image = ImageTk.PhotoImage(github_image_size)
 # Load Font
 font_mojangles = os.path.abspath("assets/Mojangles.ttf")
 
+
 # ------------------------------------------
 
-#   **--Background--**
 
 # Global Background
 background = tk.Label(TextureApp, bg="#383838")
@@ -141,17 +141,15 @@ app_title_background_border = tk.Label(TextureApp, bg="#000000")
 app_title_background_border.place(x=0, y=38, width=380, height=2)
 app_title_background_border.lift()
 
-# Background Youtube Discord
-background_info_bottom = tk.Label(TextureApp, bg="#585858")
-background_info_bottom.place(x=0, y=350, width=380, height=30)
-background_info_bottom.lift()
-background_info_bottom_border = tk.Label(TextureApp, bg="#000000")
-background_info_bottom_border.place(x=0, y=419, width=380, height=2)
-background_info_bottom_border.lift()
+# Background Credits
+background_credit_bottom = tk.Label(TextureApp, bg="#585858")
+background_credit_bottom.place(x=0, y=350, width=380, height=30)
+background_credit_bottom.lift()
+background_credit_bottom_border = tk.Label(TextureApp, bg="#000000")
+background_credit_bottom_border.place(x=0, y=419, width=380, height=2)
+background_credit_bottom_border.lift()
 
 
-# ------------------------------------------
-# ------------------------------------------
 # ------------------------------------------
 
 
@@ -174,8 +172,7 @@ dropdown_menuitems = tk.OptionMenu(TextureApp, x_multiplieritems, *optionsitems)
 dropdown_menuitems.place(x=210, y=62)
 dropdown_menuitems.configure(relief="solid", bd=2)
 
-# ------------------------------------------
-# ------------------------------------------
+
 # ------------------------------------------
 
 
@@ -200,8 +197,7 @@ dropdown_menuterrain = tk.OptionMenu(TextureApp, x_multiplierterrain, *optionste
 dropdown_menuterrain.place(x=210, y=99)
 dropdown_menuterrain.configure(relief="solid", bd=2)
 
-# ------------------------------------------
-# ------------------------------------------
+
 # ------------------------------------------
 
 
@@ -230,8 +226,7 @@ dropdown_menuparticles = tk.OptionMenu(
 dropdown_menuparticles.place(x=210, y=139)
 dropdown_menuparticles.configure(relief="solid", bd=2)
 
-# ------------------------------------------
-# ------------------------------------------
+
 # ------------------------------------------
 
 
@@ -260,12 +255,11 @@ dropdown_menupainting = tk.OptionMenu(
 dropdown_menupainting.place(x=210, y=179)
 dropdown_menupainting.configure(relief="solid", bd=2)
 
-# ------------------------------------------
-# ------------------------------------------
+
 # ------------------------------------------
 
 
-# Créer le widget ScrolledText
+# Create Widget ScrolledText
 text_console = ScrolledText(TextureApp, width=34, height=7)
 text_console.place(x=42.5, y=223)
 text_console.insert(
@@ -315,105 +309,70 @@ app_title_imagetk = ImageTk.PhotoImage(app_title_image)
 app_title = tk.Label(TextureApp, image=app_title_imagetk, bg="#585858")
 app_title.place(x=0, y=0)
 
+
 # ------------------------------------------
 
-#    **--YouTube Button--**
 
-# Image
-youtube_img = tk.Label(
-    TextureApp, image=youtube_photo_image, bg="#585858", bd=1, relief="solid"
-)
-youtube_img.place(x=213, y=TextureApp.winfo_height() - 3, anchor="sw")
-
-# Text
-youtube_text = tk.Label(TextureApp, text="Jerem2206", bg="#585858", fg="#FFFFFF")
-youtube_text.place(x=200, y=TextureApp.winfo_height() - 25, anchor="sw")
-youtube_text.place_forget()
-
-# Display text
-def youtube_show_text(event):
-    youtube_text.place(x=200, y=TextureApp.winfo_height() - 25, anchor="sw")
-
-
-# Hide text
-def youtube_hide_text(event):
-    youtube_text.place_forget()
-
-
-# Link
-def youtube_link(event):
+# Credits
+def jerem2206_youtube_link(event):
     webbrowser.open("https://www.youtube.com/channel/UC004A2sK0Pr0dD6MJzy6cTQ")
 
-
-# Bind events
-youtube_img.bind("<Enter>", youtube_show_text)
-youtube_img.bind("<Leave>", youtube_hide_text)
-youtube_img.bind("<Button-1>", youtube_link)
-
-
-# ------------------------------------------
-
-#   **--Discord Button--**
-
-# Image
-discord_img = tk.Label(
-    TextureApp, image=discord_photo_image, bg="#585858", bd=1, relief="solid"
-)
-discord_img.place(x=130, y=TextureApp.winfo_height() - 3, anchor="sw")
-
-# Text
-discord_text = tk.Label(TextureApp, text="jeremestici", bg="#585858", fg="#FFFFFF")
-discord_text.place(x=113, y=TextureApp.winfo_height() - 25, anchor="sw")
-discord_text.place_forget()
-
-# Display text
-def DiscordShowText(event):
-    discord_text.place(x=113, y=TextureApp.winfo_height() - 25, anchor="sw")
-
-
-# Hide text
-def DiscordHideText(event):
-    discord_text.place_forget()
-
-
-# Bind events
-discord_img.bind("<Enter>", DiscordShowText)
-discord_img.bind("<Leave>", DiscordHideText)
-
-
-# ------------------------------------------
-
-#    **--GitHub Button--**
-
-# Image
-github_img = tk.Label(
-    TextureApp, image=github_photo_image, bg="#585858", bd=1, relief="solid"
-)
-github_img.place(x=171, y=TextureApp.winfo_height() - 3, anchor="sw")
-
-# Text
-github_text = tk.Label(TextureApp, text="jeremy2206", bg="#585858", fg="#FFFFFF")
-github_text.place(x=151, y=TextureApp.winfo_height() - 25, anchor="sw")
-github_text.place_forget()
-
-# Display text
-def github_show_text(event):
-    github_text.place(x=151, y=TextureApp.winfo_height() - 25, anchor="sw")
-
-
-# Hide text
-def github_hide_text(event):
-    github_text.place_forget()
-
-
-# Link
-def github_link(event):
+def jerem2206_github_link(event):
     webbrowser.open("https://github.com/jeremy2206")
 
+def boreal_github_link(event):
+    webbrowser.open("https://github.com/bor-real")
 
-# Bind events
-github_img.bind("<Enter>", github_show_text)
-github_img.bind("<Leave>", github_hide_text)
-github_img.bind("<Button-1>", github_link)
+def show_credits():
+    credits_window = tk.Toplevel(TextureApp)
+    credits_window.title("Credits")
+    credits_window.geometry("300x250")
+    credits_window.resizable(False, False)
+    credits_window.iconbitmap(icon_path)
+
+    frame = tk.Frame(credits_window)
+    frame.pack(expand=True)
+
+    # Texte en haut fixe
+    credits_label = tk.Label(frame, text="Credits", font=("Helvetica", 18))
+    credits_label.grid(row=0, column=1)
+
+    jerem2206_label = tk.Label(frame, text="Jerem2206", font=("Helvetica", 13))
+    jerem2206_label.grid(row=1, column=1, pady=5)
+
+    jerem2206_youtube_img = tk.Label(frame, image=youtube_photo_image, bd=1, relief="solid")
+    jerem2206_youtube_img.grid(row=3, column=0, padx=10)
+    jerem2206_youtube_img.bind("<Button-1>", jerem2206_youtube_link)
+    jerem2206_youtube_text = tk.Label(frame, text="Jerem2206")
+    jerem2206_youtube_text.grid(row=2, column=0, padx=10)
+
+    jerem2206_github_img = tk.Label(frame, image=github_photo_image, bd=1, relief="solid")
+    jerem2206_github_img.grid(row=3, column=1, padx=10)
+    jerem2206_github_img.bind("<Button-1>", jerem2206_github_link)
+    jerem2206_github_text = tk.Label(frame, text="Jeremy2206")
+    jerem2206_github_text.grid(row=2, column=1, padx=10)
+
+    jerem2206_discord_img = tk.Label(frame, image=discord_photo_image, bd=1, relief="solid")
+    jerem2206_discord_img.grid(row=3, column=2, padx=10)
+    jerem2206_discord_text = tk.Label(frame, text="jeremestici")
+    jerem2206_discord_text.grid(row=2, column=2, padx=10)
+    
+    # ------------------------------------------------------------- #
+
+    boreal_label = tk.Label(frame, text="Boreal", font=("Helvetica", 13))
+    boreal_label.grid(row=4, column=1, pady=5)  # Utilisez columnspan pour étendre sur 3 colonnes
+
+    boreal_github_img = tk.Label(frame, image=github_photo_image, bd=1, relief="solid")
+    boreal_github_img.grid(row=6, column=1, padx=10)
+    boreal_github_text = tk.Label(frame, text="Boreal")
+    boreal_github_text.grid(row=5, column=1, padx=10)
+
+
+credits_button = tk.Button(TextureApp, text="Credits", command=show_credits)
+credits_button.configure(relief="solid", bd=2)
+credits_button.place(x=160, y=352)
+
+
+
 
 TextureApp.mainloop()
