@@ -1,10 +1,12 @@
-import tkinter as tk
-from tkinter.scrolledtext import ScrolledText
 import json
-import shutil
-import webbrowser
 import os.path
-from PIL import ImageTk, Image, ImageFont, ImageDraw
+import shutil
+import tkinter as tk
+import webbrowser
+from tkinter.scrolledtext import ScrolledText
+
+from PIL import Image, ImageDraw, ImageFont, ImageTk
+
 
 class AtlasHandler:
     def __init__(self, json_path):
@@ -40,8 +42,10 @@ class AtlasHandler:
                 print(f"L'image {image_path} n'existe pas.")
 
         image.save(output_path)
-        
-        text_console.insert(tk.INSERT, f"The file has been converted at  {output_path}\n")
+
+        text_console.insert(
+            tk.INSERT, f"The file has been converted at  {output_path}\n"
+        )
         text_console.insert(tk.INSERT, "----------------------------------\n")
         text_console.see(tk.END)
 
@@ -59,7 +63,7 @@ class AtlasHandler:
 
     def process_image(self, resolution):
         # Charger le terrain à partir du fichier JSON
-        with open(self.json_path, 'r') as item:
+        with open(self.json_path, "r") as item:
             image_dict = json.load(item)
 
         # Chemin de l'image de terrain d'origine
@@ -85,12 +89,15 @@ class AtlasHandler:
 
         if len(output_paths) > 1:
             for i, mipmap in enumerate(output_paths[1:], start=1):
-                size_multiplier = 2 ** i
+                size_multiplier = 2**i
                 self.resize_image(output_path, mipmap, size_multiplier, size_multiplier)
 
-                text_console.insert(tk.INSERT, f"A mipmap has been made at {output_path}\n")
+                text_console.insert(
+                    tk.INSERT, f"A mipmap has been made at {output_path}\n"
+                )
                 text_console.insert(tk.INSERT, "----------------------------------\n")
                 text_console.see(tk.END)
+
 
 # Créer l'app
 TextureApp = tk.Tk()
@@ -118,7 +125,7 @@ github_image = Image.open(github_image_path)
 github_image_size = github_image.resize((23, 20), Image.LANCZOS)
 github_photo_image = ImageTk.PhotoImage(github_image_size)
 
-# Load Font 
+# Load Font
 font_mojangles = os.path.abspath("assets/Mojangles.ttf")
 
 # ------------------------------------------
@@ -147,9 +154,11 @@ background_info_bottom_border.lift()
 # ------------------------------------------
 # ------------------------------------------
 
+
 def convert_items():
     item_handler = AtlasHandler("assets/json/items.json")
     item_handler.process_image(int(x_multiplieritems.get()[1:]))
+
 
 # Créer le bouton de la conversion
 convert_buttonitems = tk.Button(TextureApp, text="Convert Items", command=convert_items)
@@ -169,12 +178,16 @@ dropdown_menuitems.configure(relief="solid", bd=2)
 # ------------------------------------------
 # ------------------------------------------
 
+
 def convert_terrain():
     terrain_Handler = AtlasHandler("assets/json/terrain.json")
     terrain_Handler.process_image(int(x_multiplierterrain.get()[1:]))
 
+
 # Créer le bouton pour choisir la conversion
-convert_buttonterrain = tk.Button(TextureApp, text="Convert Blocks", command=convert_terrain)
+convert_buttonterrain = tk.Button(
+    TextureApp, text="Convert Blocks", command=convert_terrain
+)
 convert_buttonterrain.place(x=95, y=102)
 convert_buttonterrain.configure(relief="solid", bd=2)
 # Définir les options pour le menu déroulant (x16 et x32)
@@ -191,12 +204,16 @@ dropdown_menuterrain.configure(relief="solid", bd=2)
 # ------------------------------------------
 # ------------------------------------------
 
+
 def convert_particles():
     particle_handler = AtlasHandler("assets/json/particles.json")
     particle_handler.process_image(int(x_multiplierparticles.get()[1:]))
 
+
 # bouton pour choisir la conversion
-convert_buttonparticles = tk.Button(TextureApp, text="Convert Particles", command=convert_particles)
+convert_buttonparticles = tk.Button(
+    TextureApp, text="Convert Particles", command=convert_particles
+)
 convert_buttonparticles.place(x=95, y=142)
 convert_buttonparticles.configure(relief="solid", bd=2)
 
@@ -207,7 +224,9 @@ optionsparticles = ["x8", "x16", "x32", "x64"]
 x_multiplierparticles = tk.StringVar()
 x_multiplierparticles.set(optionsparticles[0])  # Par défaut x16
 
-dropdown_menuparticles = tk.OptionMenu(TextureApp, x_multiplierparticles, *optionsparticles)
+dropdown_menuparticles = tk.OptionMenu(
+    TextureApp, x_multiplierparticles, *optionsparticles
+)
 dropdown_menuparticles.place(x=210, y=139)
 dropdown_menuparticles.configure(relief="solid", bd=2)
 
@@ -215,12 +234,16 @@ dropdown_menuparticles.configure(relief="solid", bd=2)
 # ------------------------------------------
 # ------------------------------------------
 
+
 def convert_painting():
     painting_handler = AtlasHandler("assets/json/painting.json")
     painting_handler.process_image(int(x_multiplierpainting.get()[1:]))
 
+
 # bouton pour choisir la conversion
-convert_buttonpainting = tk.Button(TextureApp, text="Convert Paintings", command=convert_painting)
+convert_buttonpainting = tk.Button(
+    TextureApp, text="Convert Paintings", command=convert_painting
+)
 convert_buttonpainting.place(x=95, y=182)
 convert_buttonpainting.configure(relief="solid", bd=2)
 
@@ -231,7 +254,9 @@ optionspainting = ["x16", "x32", "x64", "x128"]
 x_multiplierpainting = tk.StringVar()
 x_multiplierpainting.set(optionspainting[0])  # Par défaut x16
 
-dropdown_menupainting = tk.OptionMenu(TextureApp, x_multiplierpainting, *optionspainting)
+dropdown_menupainting = tk.OptionMenu(
+    TextureApp, x_multiplierpainting, *optionspainting
+)
 dropdown_menupainting.place(x=210, y=179)
 dropdown_menupainting.configure(relief="solid", bd=2)
 
@@ -243,13 +268,15 @@ dropdown_menupainting.configure(relief="solid", bd=2)
 # Créer le widget ScrolledText
 text_console = ScrolledText(TextureApp, width=34, height=7)
 text_console.place(x=42.5, y=223)
-text_console.insert(tk.INSERT, "Version : 1.3 - Check if any      update have been made.\n")
+text_console.insert(
+    tk.INSERT, "Version : 1.3 - Check if any      update have been made.\n"
+)
 text_console.insert(tk.INSERT, "----------------------------------\n")
 text_console.configure(relief="solid", bd=2)
 
 # ------------------------------------------
 
-#   **--Title and Background--** 
+#   **--Title and Background--**
 
 app_title_text = "Texture Pack Converter"
 app_title_font_size = 25
@@ -258,16 +285,28 @@ app_title_font = ImageFont.truetype(font_mojangles, app_title_font_size)
 # Image and Border
 app_title_image_width = 390
 app_title_image_height = 35
-app_title_image = Image.new("RGBA", (app_title_image_width, app_title_image_height), (255, 255, 255, 0))
+app_title_image = Image.new(
+    "RGBA", (app_title_image_width, app_title_image_height), (255, 255, 255, 0)
+)
 app_title_draw = ImageDraw.Draw(app_title_image)
 app_title_outline_color = (0, 0, 0)
 app_title_outline_position = (31.5, 4)
-app_title_draw.text(app_title_outline_position, app_title_text, font=app_title_font, fill=app_title_outline_color)
+app_title_draw.text(
+    app_title_outline_position,
+    app_title_text,
+    font=app_title_font,
+    fill=app_title_outline_color,
+)
 
 # Draw Text
 app_title_text_color = (255, 255, 255)
 app_title_text_position = (29, 2)
-app_title_draw.text(app_title_text_position, app_title_text, font=app_title_font, fill=app_title_text_color)
+app_title_draw.text(
+    app_title_text_position,
+    app_title_text,
+    font=app_title_font,
+    fill=app_title_text_color,
+)
 
 # Convert Image to tk
 app_title_imagetk = ImageTk.PhotoImage(app_title_image)
@@ -281,7 +320,9 @@ app_title.place(x=0, y=0)
 #    **--YouTube Button--**
 
 # Image
-youtube_img = tk.Label(TextureApp, image=youtube_photo_image, bg="#585858", bd=1, relief="solid")
+youtube_img = tk.Label(
+    TextureApp, image=youtube_photo_image, bg="#585858", bd=1, relief="solid"
+)
 youtube_img.place(x=213, y=TextureApp.winfo_height() - 3, anchor="sw")
 
 # Text
@@ -293,13 +334,16 @@ youtube_text.place_forget()
 def youtube_show_text(event):
     youtube_text.place(x=200, y=TextureApp.winfo_height() - 25, anchor="sw")
 
+
 # Hide text
 def youtube_hide_text(event):
     youtube_text.place_forget()
 
+
 # Link
 def youtube_link(event):
     webbrowser.open("https://www.youtube.com/channel/UC004A2sK0Pr0dD6MJzy6cTQ")
+
 
 # Bind events
 youtube_img.bind("<Enter>", youtube_show_text)
@@ -312,7 +356,9 @@ youtube_img.bind("<Button-1>", youtube_link)
 #   **--Discord Button--**
 
 # Image
-discord_img = tk.Label(TextureApp, image=discord_photo_image, bg="#585858", bd=1, relief="solid")
+discord_img = tk.Label(
+    TextureApp, image=discord_photo_image, bg="#585858", bd=1, relief="solid"
+)
 discord_img.place(x=130, y=TextureApp.winfo_height() - 3, anchor="sw")
 
 # Text
@@ -324,9 +370,11 @@ discord_text.place_forget()
 def DiscordShowText(event):
     discord_text.place(x=113, y=TextureApp.winfo_height() - 25, anchor="sw")
 
+
 # Hide text
 def DiscordHideText(event):
     discord_text.place_forget()
+
 
 # Bind events
 discord_img.bind("<Enter>", DiscordShowText)
@@ -338,7 +386,9 @@ discord_img.bind("<Leave>", DiscordHideText)
 #    **--GitHub Button--**
 
 # Image
-github_img = tk.Label(TextureApp, image=github_photo_image, bg="#585858", bd=1, relief="solid")
+github_img = tk.Label(
+    TextureApp, image=github_photo_image, bg="#585858", bd=1, relief="solid"
+)
 github_img.place(x=171, y=TextureApp.winfo_height() - 3, anchor="sw")
 
 # Text
@@ -350,13 +400,16 @@ github_text.place_forget()
 def github_show_text(event):
     github_text.place(x=151, y=TextureApp.winfo_height() - 25, anchor="sw")
 
+
 # Hide text
 def github_hide_text(event):
     github_text.place_forget()
 
+
 # Link
 def github_link(event):
     webbrowser.open("https://github.com/jeremy2206")
+
 
 # Bind events
 github_img.bind("<Enter>", github_show_text)
