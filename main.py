@@ -6,337 +6,91 @@ import webbrowser
 import os.path
 from PIL import ImageTk, Image, ImageFont, ImageDraw
 
+class AtlasHandler:
+    def __init__(self, json_path):
+        self.json_path = json_path
 
-# ----------------------------------------------------------------------------------------------- #
-# ----------------------------------------------------------------------------------------------- #
-# ----------------------------------------------------------------------------------------------- #
-# ----------------------------------------------------------------------------------------------- #
+    def crop_image(self, image, max_width, max_height):
+        width, height = image.size
+        if width > max_width or height > max_height:
+            left = 0
+            top = 0
+            right = min(width, max_width)
+            bottom = min(height, max_height)
+            image = image.crop((left, top, right, bottom))
+        return image
 
+    def multiply_coordinates(self, tiles_dict, factor):
+        multiplied_tiles_dict = {}
+        for image_path, position in tiles_dict.items():
 
-def crop_imageitems(imageitems, max_widthitems, max_heightitems):
-    widthitems, heightitems = imageitems.size
-    if widthitems > max_widthitems or heightitems > max_heightitems:
-        leftitems = 0
-        topitems = 0
-        rightitems = min(widthitems, max_widthitems)
-        bottomitems = min(heightitems, max_heightitems)
-        imageitems = imageitems.crop((leftitems, topitems, rightitems, bottomitems))
-    return imageitems
+            multiplied_position = tuple(coord * factor for coord in position)
+            multiplied_tiles_dict[image_path] = multiplied_position
+        return multiplied_tiles_dict
 
-def multiply_coordinatesitems(image_dictitems, factoritems):
-    multiplied_image_dictitems = {}
-    for image_pathitems, positionitems in image_dictitems.items():
-        multiplied_positionitems = tuple(coorditems * factoritems for coorditems in positionitems)
-        multiplied_image_dictitems[image_pathitems] = multiplied_positionitems
-    return multiplied_image_dictitems
+    def merge_image(self, tiles_dict, items_image, max_width, max_height, output_path):
+        image = Image.open(items_image)
 
-def merge_imagesitems(image_dictitems, items_image, max_widthitems, max_heightitems, output_pathitems):
-    items = Image.open(items_image)
+        for image_path, positionitems in tiles_dict.items():
+            if os.path.isfile(image_path):
+                image_to_paste = Image.open(image_path)
+                image_to_paste = self.crop_image(image_to_paste, max_width, max_height)
+                image.paste(image_to_paste, positionitems)
+            else:
+                print(f"L'image {image_path} n'existe pas.")
 
-    for image_pathitems, positionitems in image_dictitems.items():
-        if os.path.isfile(image_pathitems):
-            imageitems = Image.open(image_pathitems)
-            imageitems = crop_imageitems(imageitems, max_widthitems, max_heightitems)
-            items.paste(imageitems, positionitems)
+        image.save(output_path)
+        
+        text_console.insert(tk.INSERT, f"The file has been converted at  {output_path}\n")
+        text_console.insert(tk.INSERT, "----------------------------------\n")
+        text_console.see(tk.END)
+
+    def resize_image(self, input_path, output_path, division_width, division_height):
+        if os.path.isfile(input_path):
+            image = Image.open(input_path)
+
+            width = int(image.width / division_width)
+            height = int(image.height / division_height)
+
+            resized_image = image.resize((width, height), Image.LANCZOS)
+            resized_image.save(output_path)
         else:
-            print(f"L'image {image_pathitems} n'existe pas.")
+            print(f"L'image {input_path} n'existe pas.")
 
-    # Sauvegarder l'image fusionnée en remplaçant l'image "items.png"
-    items.save(output_pathitems)
-    text_console.insert(tk.INSERT, "items.png converted at            output/items.png\n")
-    text_console.insert(tk.INSERT, "----------------------------------\n")
-    text_console.see(tk.END)
+    def process_image(self, resolution):
+        # Charger le terrain à partir du fichier JSON
+        with open(self.json_path, 'r') as item:
+            image_dict = json.load(item)
 
-def resize_imageitems(input_pathitems, output_pathitems, new_widthitems, new_heightitems):
-    if os.path.isfile(input_pathitems):
-        imageitems = Image.open(input_pathitems)
-        resized_imageitems = imageitems.resize((new_widthitems, new_heightitems), Image.LANCZOS)
-        resized_imageitems.save(output_pathitems)
-    else:
-        print(f"L'image {input_pathitems} n'existe pas.")
+        # Chemin de l'image de terrain d'origine
+        input_paths = image_dict["input_paths"]
+        input_path = input_paths[str(resolution)]
 
-def process_imagesitems():
-    multiplier_stritems = x_multiplieritems.get()
+        multiplier = int(resolution / image_dict["default_resolution"])
 
-    if multiplier_stritems == "x16":
-        multiplieritems = 1
-        items_input_path = "assets/texture/items.png"
-    elif multiplier_stritems == "x32":
-        multiplieritems = 2
-        items_input_path = "assets/texture/items32.png"
-    else:
-        return
-    
-    # Charger le terrain à partir du fichier JSON
-    with open("assets/json/items.json", 'r') as items:
-        image_dictitems = json.load(items)
+        # Chemin de sortie pour l'image de terrain fusionnée
+        output_paths = image_dict["output_paths"]
+        output_path = output_paths[0]
 
-    # Chemin de sortie pour l'image de terrain fusionnée
-    items_output_path = "output/items.png"
+        tiles_dict = image_dict["tiles"]
 
-    # Copie de l'image de terrain vers le répertoire de sortie
-    shutil.copyfile(items_input_path, items_output_path)
+        # Copie de l'image de terrain vers le répertoire de sortie
+        shutil.copyfile(input_path, output_path)
 
-    # Multiplier les coordonnées par 2
-    image_dictitems = multiply_coordinatesitems(image_dictitems, multiplieritems)
+        # Astuce malveillante pour obtenir le nom de la première clé
+        image_dict = self.multiply_coordinates(tiles_dict, multiplier)
 
-    # Appel de la fonction pour fusionner les images sur items.png
-    merge_imagesitems(image_dictitems, items_input_path, multiplieritems * 16, multiplieritems * 16, items_output_path)
+        # Appel de la fonction pour fusionner les images sur items.png
+        self.merge_image(tiles_dict, output_path, resolution, resolution, output_path)
 
+        if len(output_paths) > 1:
+            for i, mipmap in enumerate(output_paths[1:], start=1):
+                size_multiplier = 2 ** i
+                self.resize_image(output_path, mipmap, size_multiplier, size_multiplier)
 
-# ----------------------------------------------------------------------------------------------- #
-# ----------------------------------------------------------------------------------------------- #
-# ----------------------------------------------------------------------------------------------- #
-# ----------------------------------------------------------------------------------------------- #
-
-
-def crop_imageterrain(imageterrain, max_widthterrain, max_heightterrain):
-    widthterrain, heightterrain = imageterrain.size
-    if widthterrain > max_widthterrain or heightterrain > max_heightterrain:
-        leftterrain = 0
-        topterrain = 0
-        rightterrain = min(widthterrain, max_widthterrain)
-        bottomterrain = min(heightterrain, max_heightterrain)
-        imageterrain = imageterrain.crop((leftterrain, topterrain, rightterrain, bottomterrain))
-    return imageterrain
-
-def multiply_coordinatesterrain(image_dict_terrain, factor_terrain):
-    multiplied_image_dict_terrain = {}
-    for image_path_terrain, coordinates_terrain in image_dict_terrain.items():
-        if isinstance(coordinates_terrain[0], list):
-            multiplied_coordinates_terrain = [(coord[0] * factor_terrain, coord[1] * factor_terrain) for coord in coordinates_terrain]
-        else:
-            multiplied_coordinates_terrain = [(coordinates_terrain[0] * factor_terrain, coordinates_terrain[1] * factor_terrain)]
-        multiplied_image_dict_terrain[image_path_terrain] = multiplied_coordinates_terrain
-    return multiplied_image_dict_terrain
-
-def merge_imagesterrain(image_dictterrain, terrain_image, max_widthterrain, max_heightterrain, output_pathterrain):
-    terrain = Image.open(terrain_image)
-
-    for image_pathterrain, positionsterrain in image_dictterrain.items():
-        if os.path.isfile(image_pathterrain):
-            for positionterrain in positionsterrain:
-                imageterrain = Image.open(image_pathterrain)
-                cropped_imageterrain = crop_imageterrain(imageterrain, max_widthterrain, max_heightterrain)
-                terrain.paste(cropped_imageterrain, positionterrain)
-        else:
-            print(f"L'image {image_pathterrain} n'existe pas.")
-
-    # Sauvegarder l'image fusionnée en remplaçant l'image "terrain.png"
-    terrain.save(output_pathterrain)
-    text_console.insert(tk.INSERT, "terrain.png converted at          output/terrain.png\n")
-    text_console.insert(tk.INSERT, "----------------------------------\n")
-    text_console.see(tk.END)
-
-def resize_imageterrain(input_pathterrain, output_pathterrain, new_widthterrain, new_heightterrain):
-    if os.path.isfile(input_pathterrain):
-        imageterrain = Image.open(input_pathterrain)
-        resized_imageterrain = imageterrain.resize((new_widthterrain, new_heightterrain), Image.LANCZOS)
-        resized_imageterrain.save(output_pathterrain)
-    else:
-        print(f"L'image {input_pathterrain} n'existe pas.")
-
-def process_imagesterrain():
-    multiplier_strterrain = x_multiplierterrain.get()
-
-    if multiplier_strterrain == "x16":
-        multiplierterrain = 1
-        terrain_image_path = "assets/texture/terrain.png"
-    elif multiplier_strterrain == "x32":
-        multiplierterrain = 2
-        terrain_image_path = "assets/texture/terrain32.png"
-    else:
-        return
-    # Dictionnaire des images avec leurs positions
-
-    with open('assets/json/terrain.json', 'r') as terrain:
-        image_dictterrain = json.load(terrain)
-    # Chemin de l'image de sortie
-    terrain_output_path = "output/terrain.png"
-
-    # Copie de l'image de terrain vers le répertoire de sortie
-    shutil.copyfile(terrain_image_path, terrain_output_path)
-
-    # Multiplier les coordonnées par le facteur choisi (x16 ou x32)
-    image_dictterrain = multiply_coordinatesterrain(image_dictterrain, multiplierterrain)
-
-    # Appel de la fonction pour fusionner les images sur terrain.png
-    merge_imagesterrain(image_dictterrain, terrain_output_path, 16 * multiplierterrain, 16 * multiplierterrain, terrain_output_path)
-
-
-    # Redimensionner terrainMipMapLevel2.png en 128x272 ou 256x544
-    resize_imageterrain(terrain_output_path, "output/terrainMipMapLevel2.png", 128 * multiplierterrain, 272 * multiplierterrain)
-    text_console.insert(tk.INSERT, "terrainMipMapLevel2.png converted output/terrainMipMapLevel2.png\n")
-    text_console.insert(tk.INSERT, "----------------------------------\n")
-    text_console.see(tk.END)
-
-    # Copier et redimensionner terrainMipMapLevel2.png pour terrainMipMapLevel3.png
-    shutil.copyfile("output/terrainMipMapLevel2.png", "output/terrainMipMapLevel3.png")
-    resize_imageterrain("output/terrainMipMapLevel3.png", "output/terrainMipMapLevel3.png", 64 * multiplierterrain, 136 * multiplierterrain)
-    text_console.insert(tk.INSERT, "terrainMipMapLevel3.png converted output/terrainMipMapLevel3.png\n")
-    text_console.insert(tk.INSERT, "----------------------------------\n")
-    text_console.see(tk.END)
-
-
-# ----------------------------------------------------------------------------------------------- #
-# ----------------------------------------------------------------------------------------------- #
-# ----------------------------------------------------------------------------------------------- #
-# ----------------------------------------------------------------------------------------------- #
-
-
-def multiply_coordinatesparticles(image_dictparticles, factorparticles):
-    multiplied_image_dictparticles = {}
-    for image_pathparticles, positionsparticles in image_dictparticles.items():
-        if isinstance(positionsparticles[0], list):
-            multiplied_positionsparticles = [(coordparticles[0] * factorparticles, coordparticles[1] * factorparticles) for coordparticles in positionsparticles]
-        else:
-            multiplied_positionsparticles = [(positionsparticles[0] * factorparticles, positionsparticles[1] * factorparticles)]
-        multiplied_image_dictparticles[image_pathparticles] = multiplied_positionsparticles
-    return multiplied_image_dictparticles
-
-def merge_imagesparticles(image_dictparticles, particle_image, max_widthparticles, max_heightparticles, output_pathparticles):
-    particle = Image.open(particle_image)
-
-    for image_pathparticles, positionsparticles in image_dictparticles.items():
-        if os.path.isfile(image_pathparticles):
-            for positionparticles in positionsparticles:
-                imageparticles = Image.open(image_pathparticles)
-                particle.paste(imageparticles, positionparticles)
-        else:
-            print(f"L'image {image_pathparticles} n'existe pas.")
-
-    # Sauvegarder l'image fusionnée en remplaçant l'image "particles.png"
-    particle.save(output_pathparticles)
-
-    text_console.insert(tk.INSERT, "particles.png converted at        output/particles.png\n")
-    text_console.insert(tk.INSERT, "----------------------------------\n")
-    text_console.see(tk.END)
-
-def resize_imageparticles(input_pathparticles, output_pathparticles, new_widthparticles, new_heightparticles):
-    if os.path.isfile(input_pathparticles):
-        imageparticles = Image.open(input_pathparticles)
-        resized_imageparticles = imageparticles.resize((new_widthparticles, new_heightparticles), Image.LANCZOS)
-        resized_imageparticles.save(output_pathparticles)
-    else:
-        print(f"L'image {input_pathparticles} n'existe pas.")
-
-def process_images():
-    multiplier_strparticles = x_multiplierparticles.get()
-
-    if multiplier_strparticles == "x8":
-        multiplierparticles = 1
-        particle_image_path = "assets/texture/particles.png"
-    elif multiplier_strparticles == "x16":
-        multiplierparticles = 2
-        particle_image_path = "assets/texture/particles16.png"
-    elif multiplier_strparticles == "x32":
-        multiplierparticles = 4
-        particle_image_path = "assets/texture/particles32.png"
-    elif multiplier_strparticles == "x64":
-        multiplierparticles = 8
-        particle_image_path = "assets/texture/particles64.png"
-    else:
-        return
-
-    #liste d'images
-    with open("assets/json/particles.json", 'r') as particles:
-        image_dictparticles = json.load(particles) 
-
-    # Chemin de l'image de sortie
-    particle_output_path = "output/particles.png"
-
-    # Copie de l'image de particle vers la sortie
-    shutil.copyfile(particle_image_path, particle_output_path)
-
-    # Multiplier les coordonnées par le facteur choisi (x16 ou x32...)
-    image_dictparticles = multiply_coordinatesparticles(image_dictparticles, multiplierparticles)
-
-    # Appel de la fonction pour fusionner les images sur particles.png
-    merge_imagesparticles(image_dictparticles, particle_output_path, 16 * multiplierparticles, 16 * multiplierparticles, particle_output_path)
-
-
-# ----------------------------------------------------------------------------------------------- #
-# ----------------------------------------------------------------------------------------------- #
-# ----------------------------------------------------------------------------------------------- #
-# ----------------------------------------------------------------------------------------------- #
-
-
-def multiply_coordinatespainting(image_dictpainting, factorpainting):
-    multiplied_image_dictpainting = {}
-    for image_pathpainting, positionspainting in image_dictpainting.items():
-        if isinstance(positionspainting[0], list):
-            multiplied_positionspainting = [[coordpainting[0] * factorpainting, coordpainting[1] * factorpainting] for coordpainting in positionspainting]
-        else:
-            multiplied_positionspainting = [(coordpainting[0] * factorpainting, coordpainting[1] * factorpainting) for coordpainting in positionspainting]
-        multiplied_image_dictpainting[image_pathpainting] = multiplied_positionspainting
-    return multiplied_image_dictpainting
-
-def merge_imagespainting(image_dictpainting, painting_image, max_widthpainting, max_heightpainting, output_pathpainting):
-    painting = Image.open(painting_image)
-
-    for image_pathpainting, positionspainting in image_dictpainting.items():
-        if os.path.isfile(image_pathpainting):
-            for positionpainting in positionspainting:
-                imagepainting = Image.open(image_pathpainting)
-                painting.paste(imagepainting, positionpainting)
-        else:
-            print(f"L'image {image_pathpainting} n'existe pas.")
-
-    # Sauvegarder l'image fusionnée en remplaçant l'image "kz.png"
-    painting.save(output_pathpainting)
-
-    text_console.insert(tk.INSERT, "kz.png converted at output/kz.png\n")
-    text_console.insert(tk.INSERT, "----------------------------------\n")
-    text_console.see(tk.END)
-
-def resize_imagepainting(input_pathpainting, output_pathpainting, new_widthpainting, new_heightpainting):
-    if os.path.isfile(input_pathpainting):
-        imagepainting = Image.open(input_pathpainting)
-        resized_imagepainting = imagepainting.resize((new_widthpainting, new_heightpainting), Image.LANCZOS)
-        resized_imagepainting.save(output_pathpainting)
-    else:
-        print(f"L'image {input_pathpainting} n'existe pas.")
-
-def process_imagespainting():
-    multiplier_strpainting = x_multiplierpainting.get()
-
-    if multiplier_strpainting == "x16":
-        multiplierpainting = 1
-        painting_image_pathpainting = "assets/texture/kz.png"
-    elif multiplier_strpainting == "x32":
-        multiplierpainting = 2
-        painting_image_pathpainting = "assets/texture/kz32.png"
-    elif multiplier_strpainting == "x64":
-        multiplierpainting = 4
-        painting_image_pathpainting = "assets/texture/kz64.png"
-    elif multiplier_strpainting == "x128":
-        multiplierpainting = 8
-        painting_image_pathpainting = "assets/texture/kz128.png"
-    else:
-        return
-
-    #liste d'images
-    with open("assets/json/painting.json", 'r') as painting:
-        image_dictpainting = json.load(painting) 
-
-    # Chemin de l'image de sortie
-    painting_output_path = "output/kz.png"
-
-    # Copie de l'image de painting vers la sortie
-    shutil.copyfile(painting_image_pathpainting, painting_output_path)
-
-    # Multiplier les coordonnées par le facteur choisi (x16 ou x32...)
-    image_dictpainting = multiply_coordinatespainting(image_dictpainting, multiplierpainting)
-
-    # Appel de la fonction pour fusionner les images sur kz.png
-    merge_imagespainting(image_dictpainting, painting_output_path, 16 * multiplierpainting, 16 * multiplierpainting, painting_output_path)
-
-
-# ----------------------------------------------------------------------------------------------- #
-# ----------------------------------------------------------------------------------------------- #
-# ----------------------------------------------------------------------------------------------- #
-# ----------------------------------------------------------------------------------------------- #
-
+                text_console.insert(tk.INSERT, f"A mipmap has been made at {output_path}\n")
+                text_console.insert(tk.INSERT, "----------------------------------\n")
+                text_console.see(tk.END)
 
 # Créer l'app
 TextureApp = tk.Tk()
@@ -393,9 +147,12 @@ background_info_bottom_border.lift()
 # ------------------------------------------
 # ------------------------------------------
 
+def convert_items():
+    item_handler = AtlasHandler("assets/json/items.json")
+    item_handler.process_image(int(x_multiplieritems.get()[1:]))
 
 # Créer le bouton de la conversion
-convert_buttonitems = tk.Button(TextureApp, text="Convert Items", command=process_imagesitems)
+convert_buttonitems = tk.Button(TextureApp, text="Convert Items", command=convert_items)
 convert_buttonitems.place(x=95, y=62)
 convert_buttonitems.configure(relief="solid", bd=2)
 # Définir les options pour le menu déroulant (x16 et x32)
@@ -412,9 +169,12 @@ dropdown_menuitems.configure(relief="solid", bd=2)
 # ------------------------------------------
 # ------------------------------------------
 
+def convert_terrain():
+    terrain_Handler = AtlasHandler("assets/json/terrain.json")
+    terrain_Handler.process_image(int(x_multiplierterrain.get()[1:]))
 
 # Créer le bouton pour choisir la conversion
-convert_buttonterrain = tk.Button(TextureApp, text="Convert Blocks", command=process_imagesterrain)
+convert_buttonterrain = tk.Button(TextureApp, text="Convert Blocks", command=convert_terrain)
 convert_buttonterrain.place(x=95, y=102)
 convert_buttonterrain.configure(relief="solid", bd=2)
 # Définir les options pour le menu déroulant (x16 et x32)
@@ -431,9 +191,12 @@ dropdown_menuterrain.configure(relief="solid", bd=2)
 # ------------------------------------------
 # ------------------------------------------
 
+def convert_particles():
+    particle_handler = AtlasHandler("assets/json/particles.json")
+    particle_handler.process_image(int(x_multiplierparticles.get()[1:]))
 
 # bouton pour choisir la conversion
-convert_buttonparticles = tk.Button(TextureApp, text="Convert Particles", command=process_images)
+convert_buttonparticles = tk.Button(TextureApp, text="Convert Particles", command=convert_particles)
 convert_buttonparticles.place(x=95, y=142)
 convert_buttonparticles.configure(relief="solid", bd=2)
 
@@ -452,9 +215,12 @@ dropdown_menuparticles.configure(relief="solid", bd=2)
 # ------------------------------------------
 # ------------------------------------------
 
+def convert_painting():
+    painting_handler = AtlasHandler("assets/json/painting.json")
+    painting_handler.process_image(int(x_multiplierpainting.get()[1:]))
 
 # bouton pour choisir la conversion
-convert_buttonpainting = tk.Button(TextureApp, text="Convert Paintings", command=process_imagespainting)
+convert_buttonpainting = tk.Button(TextureApp, text="Convert Paintings", command=convert_painting)
 convert_buttonpainting.place(x=95, y=182)
 convert_buttonpainting.configure(relief="solid", bd=2)
 
