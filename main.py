@@ -39,7 +39,7 @@ class AtlasHandler:
                 image_to_paste = self.crop_image(image_to_paste, max_width, max_height)
                 image.paste(image_to_paste, positionitems)
             else:
-                print(f"L'image {image_path} n'existe pas.")
+                print(f"Image {image_path} does not exist.")
 
         image.save(output_path)
 
