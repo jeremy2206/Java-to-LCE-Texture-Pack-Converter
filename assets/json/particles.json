@@ -9,7 +9,7 @@
     },
 
     "output_paths": [
-        "output/kz.png"
+        "output/particles.png"
     ],
     
     "tiles" : {    
