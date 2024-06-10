@@ -169,15 +169,13 @@ def convert_items():
     item_handler.process_image(int(x_multiplieritems.get()[1:]))
 
 
-# Créer le bouton de la conversion
 convert_buttonitems = tk.Button(TextureApp, text="Convert Items", command=convert_items)
 convert_buttonitems.place(x=95, y=62)
 convert_buttonitems.configure(relief="solid", bd=2)
-# Définir les options pour le menu déroulant (x16 et x32)
+
 optionsitems = ["x16"]
-# Déclarez x_multiplier comme une variable de chaîne
 x_multiplieritems = tk.StringVar()
-x_multiplieritems.set(optionsitems[0])  # Par d��faut, x16 est sélectionné
+x_multiplieritems.set(optionsitems[0])  # default: x16 selected
 
 dropdown_menuitems = tk.OptionMenu(TextureApp, x_multiplieritems, *optionsitems)
 dropdown_menuitems.place(x=210, y=62)
@@ -192,17 +190,15 @@ def convert_terrain():
     terrain_Handler.process_image(int(x_multiplierterrain.get()[1:]))
 
 
-# Créer le bouton pour choisir la conversion
 convert_buttonterrain = tk.Button(
     TextureApp, text="Convert Blocks", command=convert_terrain
 )
 convert_buttonterrain.place(x=95, y=102)
 convert_buttonterrain.configure(relief="solid", bd=2)
-# Définir les options pour le menu déroulant (x16 et x32)
+
 optionsterrain = ["x16", "x32"]
-# Déclarez x_multiplier comme une variable de chaîne
 x_multiplierterrain = tk.StringVar()
-x_multiplierterrain.set(optionsterrain[0])  # Par défaut, x16 est sélectionné
+x_multiplierterrain.set(optionsterrain[0]) 
 
 dropdown_menuterrain = tk.OptionMenu(TextureApp, x_multiplierterrain, *optionsterrain)
 dropdown_menuterrain.place(x=210, y=99)
@@ -216,20 +212,15 @@ def convert_particles():
     particle_handler = AtlasHandler("assets/json/particles.json")
     particle_handler.process_image(int(x_multiplierparticles.get()[1:]))
 
-
-# bouton pour choisir la conversion
 convert_buttonparticles = tk.Button(
     TextureApp, text="Convert Particles", command=convert_particles
 )
 convert_buttonparticles.place(x=95, y=142)
 convert_buttonparticles.configure(relief="solid", bd=2)
 
-# Définir les options pour le menu déroulant (x16 / x32...)
 optionsparticles = ["x8", "x16", "x32", "x64"]
-
-# Déclarez x_multiplier comme une variable de chaîne
 x_multiplierparticles = tk.StringVar()
-x_multiplierparticles.set(optionsparticles[0])  # Par défaut x16
+x_multiplierparticles.set(optionsparticles[0])  
 
 dropdown_menuparticles = tk.OptionMenu(
     TextureApp, x_multiplierparticles, *optionsparticles
@@ -245,20 +236,16 @@ def convert_painting():
     painting_handler = AtlasHandler("assets/json/painting.json")
     painting_handler.process_image(int(x_multiplierpainting.get()[1:]))
 
-
-# bouton pour choisir la conversion
 convert_buttonpainting = tk.Button(
     TextureApp, text="Convert Paintings", command=convert_painting
 )
 convert_buttonpainting.place(x=95, y=182)
 convert_buttonpainting.configure(relief="solid", bd=2)
 
-# Définir les options pour le menu déroulant (x16 / x32...)
-optionspainting = ["x16", "x32", "x64", "x128"]
 
-# Déclarez x_multiplier comme une variable de chaîne
+optionspainting = ["x16", "x32", "x64", "x128"]
 x_multiplierpainting = tk.StringVar()
-x_multiplierpainting.set(optionspainting[0])  # Par défaut x16
+x_multiplierpainting.set(optionspainting[0]) 
 
 dropdown_menupainting = tk.OptionMenu(
     TextureApp, x_multiplierpainting, *optionspainting
@@ -268,7 +255,6 @@ dropdown_menupainting.configure(relief="solid", bd=2)
 
 
 # ------------------------------------------
-
 
 
 # Create Widget ScrolledText
@@ -372,7 +358,7 @@ def show_credits():
     # ------------------------------------------------------------- #
 
     boreal_label = tk.Label(frame, text="Boreal", font=("Helvetica", 13))
-    boreal_label.grid(row=4, column=1, pady=5)  # Utilisez columnspan pour étendre sur 3 colonnes
+    boreal_label.grid(row=4, column=1, pady=5)  
 
     boreal_github_img = tk.Label(frame, image=github_photo_image, bd=1, relief="solid")
     boreal_github_img.grid(row=6, column=1, padx=10)
@@ -385,6 +371,7 @@ credits_button.configure(relief="solid", bd=2)
 credits_button.place(x=160, y=352)
 
 
+# ------------------------------------------
 
 
 TextureApp.mainloop()
