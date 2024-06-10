@@ -25,7 +25,6 @@ class AtlasHandler:
     def multiply_coordinates(self, tiles_dict, factor):
         multiplied_tiles_dict = {}
         for image_path, position in tiles_dict.items():
-
             multiplied_position = tuple(coord * factor for coord in position)
             multiplied_tiles_dict[image_path] = multiplied_position
         return multiplied_tiles_dict
@@ -33,21 +32,25 @@ class AtlasHandler:
     def merge_image(self, tiles_dict, items_image, max_width, max_height, output_path):
         image = Image.open(items_image)
 
-        for image_path, positionitems in tiles_dict.items():
+        for image_path, position in tiles_dict.items():
             if os.path.isfile(image_path):
                 image_to_paste = Image.open(image_path)
                 image_to_paste = self.crop_image(image_to_paste, max_width, max_height)
-                image.paste(image_to_paste, positionitems)
+
+                # Ensure position is a 2-tuple (x, y) for the top-left corner
+                if isinstance(position, tuple) and len(position) == 2:
+                    image.paste(image_to_paste, position)
+                elif isinstance(position, list) and len(position) == 2:
+                    image.paste(image_to_paste, tuple(position))  # Convert list to tuple if necessary
+                elif isinstance(position, list) and len(position[0]) == 2:  # If position is a list of 2-tuples
+                    image.paste(image_to_paste, position[0])  # Use the first 2-tuple if position is a list of 2-tuples
+                else:
+                    print(f"Invalid position format for {image_path}: {position}")
             else:
                 print(f"Image {image_path} does not exist.")
 
         image.save(output_path)
 
-        text_console.insert(
-            tk.INSERT, f"The file has been converted at  {output_path}\n"
-        )
-        text_console.insert(tk.INSERT, "----------------------------------\n")
-        text_console.see(tk.END)
 
     def resize_image(self, input_path, output_path, division_width, division_height):
         if os.path.isfile(input_path):
@@ -62,34 +65,42 @@ class AtlasHandler:
             print(f"L'image {input_path} n'existe pas.")
 
     def process_image(self, resolution):
-        # Charger le terrain à partir du fichier JSON
+        # Load the terrain from the JSON file
         with open(self.json_path, "r") as item:
             image_dict = json.load(item)
 
-        # Chemin de l'image de terrain d'origine
+        # Path to the original terrain image
         input_paths = image_dict["input_paths"]
         input_path = input_paths[str(resolution)]
 
         multiplier = int(resolution / image_dict["default_resolution"])
 
-        # Chemin de sortie pour l'image de terrain fusionnée
+        # Output path for the merged terrain image
         output_paths = image_dict["output_paths"]
         output_path = output_paths[0]
 
         tiles_dict = image_dict["tiles"]
 
-        # Copie de l'image de terrain vers le répertoire de sortie
+        # Convert position values to tuples of integers, handling nested lists
+        for key in tiles_dict.keys():
+            if isinstance(tiles_dict[key], list) and isinstance(tiles_dict[key][0], list):
+                tiles_dict[key] = [tuple(map(int, coord) for coord in tiles_dict[key])]
+            else:
+                tiles_dict[key] = tuple(map(int, tiles_dict[key]))
+
+        # Copy the terrain image to the output directory
         shutil.copyfile(input_path, output_path)
 
-        # Astuce malveillante pour obtenir le nom de la première clé
-        image_dict = self.multiply_coordinates(tiles_dict, multiplier)
+        # Multiply coordinates by the resolution factor
+        tiles_dict = self.multiply_coordinates(tiles_dict, multiplier)
 
-        # Appel de la fonction pour fusionner les images sur items.png
+        # Merge images onto the output terrain image
         self.merge_image(tiles_dict, output_path, resolution, resolution, output_path)
 
+        # Create mipmaps if required
         if len(output_paths) > 1:
             for i, mipmap in enumerate(output_paths[1:], start=1):
-                size_multiplier = 2**i
+                size_multiplier = 2 ** i
                 self.resize_image(output_path, mipmap, size_multiplier, size_multiplier)
 
                 text_console.insert(
@@ -166,7 +177,7 @@ convert_buttonitems.configure(relief="solid", bd=2)
 optionsitems = ["x16"]
 # Déclarez x_multiplier comme une variable de chaîne
 x_multiplieritems = tk.StringVar()
-x_multiplieritems.set(optionsitems[0])  # Par défaut, x16 est sélectionné
+x_multiplieritems.set(optionsitems[0])  # Par d��faut, x16 est sélectionné
 
 dropdown_menuitems = tk.OptionMenu(TextureApp, x_multiplieritems, *optionsitems)
 dropdown_menuitems.place(x=210, y=62)
@@ -257,6 +268,7 @@ dropdown_menupainting.configure(relief="solid", bd=2)
 
 
 # ------------------------------------------
+
 
 
 # Create Widget ScrolledText
