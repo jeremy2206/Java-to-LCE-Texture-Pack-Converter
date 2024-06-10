@@ -51,6 +51,12 @@ class AtlasHandler:
 
         image.save(output_path)
 
+        text_console.insert(
+            tk.INSERT, f"The file has been converted at    {output_path}\n"
+        )
+        text_console.insert(tk.INSERT, "----------------------------------\n")
+        text_console.see(tk.END)
+
 
     def resize_image(self, input_path, output_path, division_width, division_height):
         if os.path.isfile(input_path):
@@ -102,12 +108,6 @@ class AtlasHandler:
             for i, mipmap in enumerate(output_paths[1:], start=1):
                 size_multiplier = 2 ** i
                 self.resize_image(output_path, mipmap, size_multiplier, size_multiplier)
-
-                text_console.insert(
-                    tk.INSERT, f"A mipmap has been made at {output_path}\n"
-                )
-                text_console.insert(tk.INSERT, "----------------------------------\n")
-                text_console.see(tk.END)
 
 
 # Create App
