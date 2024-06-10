@@ -1,5 +1,4 @@
-# Java-to-WiiU-Texture-Pack-Converter
-- Made by Jerem2206.
+# Java-to-LCE-Texture-Pack-Converter
 - Country Language: EN
 - Tested on Windows 10 & 11
 
@@ -26,7 +25,7 @@ The tool provides an easy way to convert Minecraft Java Edition textures over to
 - [x] 1.18
 - [x] 1.19
 - [x] 1.20
-- [ ] 1.20+
+- [ ] 1.21
 
 ### Converter Things
 - [x] Items
@@ -37,3 +36,8 @@ The tool provides an easy way to convert Minecraft Java Edition textures over to
 ### Others
 - [x] Blocks X16 & X32 together
 - [x] All Converter together
+
+## Credits
+- Jerem2206 - Creator
+- Boreal - Upgrade main.py
+- EternalModz - Upgrade README.md
