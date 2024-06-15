@@ -110,6 +110,80 @@ class AtlasHandler:
                 self.resize_image(output_path, mipmap, size_multiplier, size_multiplier)
 
 
+
+
+def multiply_coordinatespainting(image_dictpainting, factorpainting):
+    multiplied_image_dictpainting = {}
+    for image_pathpainting, positionspainting in image_dictpainting.items():
+        if isinstance(positionspainting[0], list):
+            multiplied_positionspainting = [[coordpainting[0] * factorpainting, coordpainting[1] * factorpainting] for coordpainting in positionspainting]
+        else:
+            multiplied_positionspainting = [(coordpainting[0] * factorpainting, coordpainting[1] * factorpainting) for coordpainting in positionspainting]
+        multiplied_image_dictpainting[image_pathpainting] = multiplied_positionspainting
+    return multiplied_image_dictpainting
+
+def merge_imagespainting(image_dictpainting, painting_image, max_widthpainting, max_heightpainting, output_pathpainting):
+    painting = Image.open(painting_image)
+
+    for image_pathpainting, positionspainting in image_dictpainting.items():
+        if os.path.isfile(image_pathpainting):
+            for positionpainting in positionspainting:
+                imagepainting = Image.open(image_pathpainting)
+                painting.paste(imagepainting, positionpainting)
+        else:
+            print(f"L'image {image_pathpainting} n'existe pas.")
+
+    # Sauvegarder l'image fusionnée en remplaçant l'image "kz.png"
+    painting.save(output_pathpainting)
+
+    text_console.insert(tk.INSERT, "kz.png converted at output/kz.png\n")
+    text_console.insert(tk.INSERT, "----------------------------------\n")
+    text_console.see(tk.END)
+
+def resize_imagepainting(input_pathpainting, output_pathpainting, new_widthpainting, new_heightpainting):
+    if os.path.isfile(input_pathpainting):
+        imagepainting = Image.open(input_pathpainting)
+        resized_imagepainting = imagepainting.resize((new_widthpainting, new_heightpainting), Image.LANCZOS)
+        resized_imagepainting.save(output_pathpainting)
+    else:
+        print(f"L'image {input_pathpainting} n'existe pas.")
+
+def process_imagespainting():
+    multiplier_strpainting = x_multiplierpainting.get()
+
+    if multiplier_strpainting == "x16":
+        multiplierpainting = 1
+        painting_image_pathpainting = "assets/texture/kz.png"
+    elif multiplier_strpainting == "x32":
+        multiplierpainting = 2
+        painting_image_pathpainting = "assets/texture/kz32.png"
+    elif multiplier_strpainting == "x64":
+        multiplierpainting = 4
+        painting_image_pathpainting = "assets/texture/kz64.png"
+    elif multiplier_strpainting == "x128":
+        multiplierpainting = 8
+        painting_image_pathpainting = "assets/texture/kz128.png"
+    else:
+        return
+
+    #liste d'images
+    with open("assets/json/painting.json", 'r') as painting:
+        image_dictpainting = json.load(painting) 
+
+    # Chemin de l'image de sortie
+    painting_output_path = "output/kz.png"
+
+    # Copie de l'image de painting vers la sortie
+    shutil.copyfile(painting_image_pathpainting, painting_output_path)
+
+    # Multiplier les coordonnées par le facteur choisi (x16 ou x32...)
+    image_dictpainting = multiply_coordinatespainting(image_dictpainting, multiplierpainting)
+
+    # Appel de la fonction pour fusionner les images sur kz.png
+    merge_imagespainting(image_dictpainting, painting_output_path, 16 * multiplierpainting, 16 * multiplierpainting, painting_output_path)
+
+
+
 # Create App
 TextureApp = tk.Tk()
 TextureApp.title("Texture Pack Converter Java to LCE")
@@ -231,14 +305,8 @@ dropdown_menuparticles.configure(relief="solid", bd=2)
 
 # ------------------------------------------
 
+convert_buttonpainting = tk.Button(TextureApp, text="Convert Paintings", command=process_imagespainting)
 
-def convert_painting():
-    painting_handler = AtlasHandler("assets/json/painting.json")
-    painting_handler.process_image(int(x_multiplierpainting.get()[1:]))
-
-convert_buttonpainting = tk.Button(
-    TextureApp, text="Convert Paintings", command=convert_painting
-)
 convert_buttonpainting.place(x=95, y=182)
 convert_buttonpainting.configure(relief="solid", bd=2)
 
