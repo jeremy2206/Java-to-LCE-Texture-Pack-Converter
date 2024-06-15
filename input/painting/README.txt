@@ -1,0 +1,1 @@
+Drag your painting here
