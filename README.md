@@ -25,7 +25,8 @@ The tool provides an easy way to convert Minecraft Java Edition textures over to
 - [x] 1.18
 - [x] 1.19
 - [x] 1.20
-- [ ] 1.21
+- [x] 1.21
+- [ ] 1.21+
 
 ### Converter Things
 - [x] Items
