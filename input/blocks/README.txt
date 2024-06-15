@@ -1,1 +1,0 @@
-Drag your blocks here
