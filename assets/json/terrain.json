@@ -154,6 +154,7 @@
         "input/blocks/cyan_stained_glass.png" : [48, 288],
         "input/blocks/cyan_stained_glass_pane_top.png" : [48, 304],
         "input/blocks/cyan_terracotta.png" : [48, 272],
+        "input/blocks/cyan_wool.png" : [16, 208],
         "input/blocks/damaged_anvil_top.png" : [128, 224],
         "input/blocks/dandelion.png" : [208, 0],
         "input/blocks/dark_oak_door_bottom.png" : [32, 384],
