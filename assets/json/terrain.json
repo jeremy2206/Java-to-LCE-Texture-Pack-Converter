@@ -422,7 +422,7 @@
         "input/blocks/light_gray_wool.png" : [16, 224],
         "input/blocks/lilac_bottom.png" : [64, 336],
         "input/blocks/lilac_top.png" : [64, 320],
-        "input/blocks/lily_pad.png" : [208, 96],
+        "input/blocks/lily_pad.png" : [192, 64],
         "input/blocks/lime_concrete.png" : [112, 432],
         "input/blocks/lime_concrete_powder.png" : [112, 448],
         "input/blocks/lime_glazed_terracotta.png" : [112, 464],
