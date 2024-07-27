@@ -329,7 +329,7 @@ dropdown_menupainting.configure(relief="solid", bd=2)
 text_console = ScrolledText(TextureApp, width=34, height=7)
 text_console.place(x=42.5, y=223)
 text_console.insert(
-    tk.INSERT, "Version : 1.4.1 - Check if any      update have been made.\n"
+    tk.INSERT, "Version : 1.4.2 - Check if any      update have been made.\n"
 )
 text_console.insert(tk.INSERT, "----------------------------------\n")
 text_console.configure(relief="solid", bd=2)
