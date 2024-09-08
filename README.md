@@ -33,6 +33,7 @@ The tool provides an easy way to convert Minecraft Java Edition textures over to
 - [x] Blocks
 - [x] Painting
 - [x] Particles
+- [ ] GUI
 
 ### Others
 - [x] Blocks X16 & X32 together
